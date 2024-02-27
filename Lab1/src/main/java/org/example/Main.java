@@ -20,8 +20,8 @@ public class Main {
         rez += Integer.parseInt(binaryNr, 2);
         rez += Integer.parseInt(hexazecimalNr,16);
         rez *=6;
-        System.out.printf("rez= ");
-        System.out.println(rez);
+
+        System.out.println("rez= " + rez);
 
         int newRez=0;
         int newRez2=0;
