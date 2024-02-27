@@ -1,29 +1,27 @@
-import java.lang.reflect.Array;
-
+package  org.example;
 
 public class Main {
+
     public static void main(String[] args) {
         //Compulsory
         //Ex1
-        System.out.printf("Hello World!");
+        System.out.print("Hello World!");
         //Ex2
         String[] languages = {"C", "C++", "C#", "Python", "Go", "Rust", "JavaScript", "PHP", "Swift", "Java"};
-
+        //Ex3
         int n = (int) (Math.random() * 1000000);
         int rez=n;
         System.out.println(n);
-
-        String binaryNr = "10101";
-        String hexazecimalNr = "FF";
+        //Ex4
         rez*=3;
-        rez += Integer.parseInt(binaryNr, 2);
-        rez += Integer.parseInt(hexazecimalNr,16);
-        rez *=6;
+        rez += 0b10101;
+        rez += 0xFF;
+        rez *= 6;
 
         System.out.println("rez= " + rez);
-
-        int newRez=0;
-        int newRez2=0;
+        //Ex5
+        int newRez;
+        int newRez2;
         int sum=0;
 
         while(rez > 0 ) {
@@ -37,7 +35,8 @@ public class Main {
             rez=rez/10;
 
             sum = newRez2+newRez;
-            if(rez < 9 && sum >=9 ){
+
+            if(rez == 0 && sum > 9 ){
                 rez=sum;
                 sum=0;
             }
@@ -45,7 +44,7 @@ public class Main {
         }
 
         System.out.println(sum);
-
+        //Ex6
         System.out.println("Willy-nilly, this semester I will learn " + languages[sum]);
 
     }
