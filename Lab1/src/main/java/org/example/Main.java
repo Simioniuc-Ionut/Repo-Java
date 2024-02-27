@@ -26,16 +26,9 @@ public class Main {
 
         while(rez > 0 ) {
 
-            newRez =rez % 10;
+            sum +=rez % 10;
 
             rez=rez/10;
-
-            newRez2= rez%10;
-
-            rez=rez/10;
-
-            sum = newRez2+newRez;
-
             if(rez == 0 && sum > 9 ){
                 rez=sum;
                 sum=0;
