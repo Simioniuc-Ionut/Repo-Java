@@ -58,7 +58,7 @@ public class Main {
         */
 
         //Bonus:
-        WheelGraph wheel = new WheelGraph( 10);
+        WheelGraph wheel = new WheelGraph( 4);
 
         wheel.SetTheMatrixOfWhell();
         wheel.GetTheMatrixOfWhell();
