@@ -1,7 +1,8 @@
 package org.example;
 
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.*;
+
+import static java.util.Collection.*;
 
 public class WheelGraph {
 
@@ -27,18 +28,20 @@ public class WheelGraph {
     HashSet<String> recordedCycles = new HashSet<>();
     private int[][] ArrayOfVisitedEdges;
 
+
+    private HashSet<Integer> VisitedNodes ;
+    private LinkedHashSet<String> VisitedEdges;
+    private HashSet<String> CyclesCount =new HashSet<>();
+
+
     WheelGraph(int Vertex) {
         if (Vertex <= 3) {
             this.N = 0;
             Matrix = new int[Vertex][Vertex];
-            ArrayOfVisitedNodes = new int[Vertex + 1];
-            ArrayOfVisitedNodes = new int[Vertex + 1];
 
         } else {
             this.N = Vertex;
             Matrix = new int[Vertex][Vertex];
-            ArrayOfVisitedNodes = new int[Vertex];
-            ArrayOfVisitedEdges = new int[Vertex][Vertex];
         }
     }
 
@@ -101,13 +104,16 @@ public class WheelGraph {
             System.out.println("Numărul de vârfuri este incorect");
         } else {
             for (int i = 0; i < N; i++) {
-                ArrayOfVisitedNodes = new int[N];
-                ArrayOfVisitedEdges = new int[N][N];
+                VisitedNodes = new HashSet<Integer>();
+                VisitedEdges = new LinkedHashSet<String>();
                 CountElements = 0;
-                DFSGraph(i, i);
+                DFSGraph(i, i, i);
+                VisitedEdges.clear();
+                VisitedNodes.clear();
             }
             if(CountCycles == (N*N - 3 * N + 3)) {
                 System.out.println("Cicluri = " + CountCycles);
+                System.out.println("Cycle added : " + CyclesCount);
             }else{
                 System.out.println("NU s a gasit  " + CountCycles);
             }
@@ -115,39 +121,46 @@ public class WheelGraph {
         }
     }
 
-    private void DFSGraph(int StartVertex, int vertex) {
-        ArrayOfVisitedNodes[vertex] = 1; // Marchează nodul curent ca vizitat
+    private void DFSGraph(int StartVertex, int vertex,int previous) {
+        VisitedNodes.add(vertex);
         CountElements++;
 
         for (int i = 0; i < N; i++) {
-            if (Matrix[vertex][i] == 1 && ArrayOfVisitedNodes[i] == 0) {
-                ArrayOfVisitedEdges[vertex][i] = 1; // marcheaza muchia ca vizitata
-                ArrayOfVisitedEdges[i][vertex] = 1;
+            if (Matrix[vertex][i] == 1 &&  !VisitedNodes.contains(i)){
+                // Reprezentăm întotdeauna muchia ca "nodul mai mic - nodul mai mare"
+                String muchie = vertex < i ? String.valueOf(vertex) + "-" + String.valueOf(i) : String.valueOf(i) + "-" + String.valueOf(vertex);
+                VisitedEdges.add(muchie);
 
                // System.out.print(" " + i);
-                DFSGraph(StartVertex, i);
-                ArrayOfVisitedEdges[vertex][StartVertex] = 0; // reseteaza muchia ca nevizitata
-                ArrayOfVisitedEdges[StartVertex][vertex] = 0;
-                ArrayOfVisitedNodes[vertex] = 0;
-
-
+                DFSGraph(StartVertex, i,vertex);
+                // Reprezentăm întotdeauna muchia ca "nodul mai mic - nodul mai mare"
+                VisitedEdges.remove(muchie);
+                VisitedNodes.remove(i);
             }
         }
+
       // System.out.println();
 
         if (CountElements > 2 && Matrix[vertex][StartVertex] == 1) {
-            // Ciclul nu a fost deja înregistrat
 
-            String currentCycle = Arrays.deepToString(ArrayOfVisitedEdges); // Folosește muchiile vizitate pentru a identifica ciclul
-            if (!recordedCycles.contains(currentCycle)) {
-                recordedCycles.add(currentCycle);
-                //System.out.println("Record Cycle : " + recordedCycles);
+            // Reprezentăm întotdeauna muchia ca "nodul mai mic - nodul mai mare"
+            String muchie = StartVertex < vertex ? String.valueOf(StartVertex) + "-" + String.valueOf(vertex) : String.valueOf(vertex) + "-" + String.valueOf(StartVertex);
+            VisitedEdges.add(muchie);
 
-                CountCycles++;
-            }
+            List<String> sortedEdges = new ArrayList<>(VisitedEdges);
+            Collections.sort (sortedEdges);
+            String SortedCycle = String.valueOf(sortedEdges);
+            if(!CyclesCount.contains(SortedCycle)){
+                    CyclesCount.add(SortedCycle);
+                    CountCycles++;
+                }
+            //System.out.println("Edges " + VisitedEdges);
+            //System.out.println("Nodes " + VisitedNodes);
+
+
+            VisitedEdges.remove(muchie);
         }
-
-
         CountElements--;
+
     }
 }

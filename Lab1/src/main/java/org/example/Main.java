@@ -43,23 +43,29 @@ public class Main {
         */
 
         //Homework:
-        /*
-        long startRuningTime = System.currentTimeMillis();
-        //Homework a = new Homework(4,25);
-        //System.out.print(a.esteReductibil());
 
+        long startRuningTime = System.currentTimeMillis();
+
+        Homework a = new Homework(4,25);
+        System.out.println(a.esteReductibil());
+
+        Homework b = new Homework(1,13,15);
+        b.esteValid();
+        /*
+        if (args.length<3){
+            System.out.println("Not enough arguments");
+        }
         Homework b = new Homework(Integer.parseInt(args[2]),Integer.parseInt(args[0]),Integer.parseInt(args[1]));
         b.esteValid();
         System.out.println(b.list);
+         */
         long endRuningTime= System.currentTimeMillis();
         long totalTime = endRuningTime - startRuningTime;
 
-        System.out.print(totalTime);
-        */
+        System.out.print("Timp total " + totalTime);
 
         //Bonus:
         WheelGraph wheel = new WheelGraph( 4);
-
         wheel.SetTheMatrixOfWhell();
         wheel.GetTheMatrixOfWhell();
         wheel.GetCycles();
