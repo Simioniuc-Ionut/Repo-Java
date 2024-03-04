@@ -20,47 +20,42 @@ public class WheelGraph {
     */
 
     int N;
-    int[][] Matrix;
-    private int[] ArrayOfVisitedNodes;
-
+    int[][] matrix;
     private int CountCycles = 0;
-    private int CountElements = 0;
-    HashSet<String> recordedCycles = new HashSet<>();
-    private int[][] ArrayOfVisitedEdges;
-
-
-    private HashSet<Integer> VisitedNodes ;
-    private LinkedHashSet<String> VisitedEdges;
-    private HashSet<String> CyclesCount =new HashSet<>();
+    private int countElements = 0;
+    
+    private HashSet<Integer> visitedNodes ;
+    private LinkedHashSet<String> visitedEdges;
+    private HashSet<String> cyclesCountSet =new HashSet<>();
 
 
     WheelGraph(int Vertex) {
         if (Vertex <= 3) {
             this.N = 0;
-            Matrix = new int[Vertex][Vertex];
+            matrix = new int[Vertex][Vertex];
 
         } else {
             this.N = Vertex;
-            Matrix = new int[Vertex][Vertex];
+            matrix = new int[Vertex][Vertex];
         }
     }
 
-    void SetTheMatrixOfWhell() {
+    void setTheMatrixOfWhell() {
         int NrEdges = 0;
         for (int i = 0; i < N; i++) {
             for (int j = i + 1; j < N && NrEdges < 2; j++) {
                 //nodul din mijloc
                 if (i == 0) {
-                    Matrix[i][j] = 1;
-                    Matrix[j][i] = 1;
+                    matrix[i][j] = 1;
+                    matrix[j][i] = 1;
                 } else {
 
-                    Matrix[i][j] = 1;
-                    Matrix[j][i] = 1;
+                    matrix[i][j] = 1;
+                    matrix[j][i] = 1;
 
                     if (i == 1) {
-                        Matrix[i][N - 1] = 1;
-                        Matrix[N - 1][i] = 1;
+                        matrix[i][N - 1] = 1;
+                        matrix[N - 1][i] = 1;
                     }
                     NrEdges = 2;
 
@@ -70,7 +65,7 @@ public class WheelGraph {
         }
     }
 
-    void GetTheMatrixOfWhell() {
+    void getTheMatrixOfWhell() {
 
         if (N == 0) {
             System.out.print("Number of vertexs are incorect ");
@@ -91,7 +86,7 @@ public class WheelGraph {
                 System.out.print(i + " : ");
                 for (int j = 0; j < N; j++) {
                     //nodul din mijloc
-                    System.out.print(Matrix[i][j] + " ");
+                    System.out.print(matrix[i][j] + " ");
                 }
                 System.out.println();
             }
@@ -99,68 +94,66 @@ public class WheelGraph {
         }
     }
 
-    public void GetCycles() {
+    public void getCycles() {
         if (N == 0) {
             System.out.println("Numărul de vârfuri este incorect");
         } else {
             for (int i = 0; i < N; i++) {
-                VisitedNodes = new HashSet<Integer>();
-                VisitedEdges = new LinkedHashSet<String>();
-                CountElements = 0;
+                visitedNodes = new HashSet<Integer>();
+                visitedEdges = new LinkedHashSet<String>();
+                countElements = 0;
                 DFSGraph(i, i, i);
-                VisitedEdges.clear();
-                VisitedNodes.clear();
+                visitedEdges.clear();
+                visitedNodes.clear();
             }
             if(CountCycles == (N*N - 3 * N + 3)) {
                 System.out.println("Cicluri = " + CountCycles);
-                System.out.println("Cycle added : " + CyclesCount);
+                System.out.println("Cycle added : " + cyclesCountSet);
             }else{
                 System.out.println("NU s a gasit  " + CountCycles);
             }
-
         }
     }
 
-    private void DFSGraph(int StartVertex, int vertex,int previous) {
-        VisitedNodes.add(vertex);
-        CountElements++;
+    private void DFSGraph(int startVertex, int vertex,int previous) {
+        visitedNodes.add(vertex);
+        countElements++;
 
         for (int i = 0; i < N; i++) {
-            if (Matrix[vertex][i] == 1 &&  !VisitedNodes.contains(i)){
+            if (matrix[vertex][i] == 1 &&  !visitedNodes.contains(i)){
                 // Reprezentăm întotdeauna muchia ca "nodul mai mic - nodul mai mare"
                 String muchie = vertex < i ? String.valueOf(vertex) + "-" + String.valueOf(i) : String.valueOf(i) + "-" + String.valueOf(vertex);
-                VisitedEdges.add(muchie);
+                visitedEdges.add(muchie);
 
                // System.out.print(" " + i);
-                DFSGraph(StartVertex, i,vertex);
-                // Reprezentăm întotdeauna muchia ca "nodul mai mic - nodul mai mare"
-                VisitedEdges.remove(muchie);
-                VisitedNodes.remove(i);
+                DFSGraph(startVertex, i,vertex);
+                visitedEdges.remove(muchie);
+                visitedNodes.remove(i);
             }
         }
 
       // System.out.println();
 
-        if (CountElements > 2 && Matrix[vertex][StartVertex] == 1) {
+        if (countElements > 2 && matrix[vertex][startVertex] == 1) {
 
             // Reprezentăm întotdeauna muchia ca "nodul mai mic - nodul mai mare"
-            String muchie = StartVertex < vertex ? String.valueOf(StartVertex) + "-" + String.valueOf(vertex) : String.valueOf(vertex) + "-" + String.valueOf(StartVertex);
-            VisitedEdges.add(muchie);
+            String muchie = startVertex < vertex ? String.valueOf(startVertex) + "-" + String.valueOf(vertex) : String.valueOf(vertex) + "-" + String.valueOf(startVertex);
+            visitedEdges.add(muchie);
 
-            List<String> sortedEdges = new ArrayList<>(VisitedEdges);
+            List<String> sortedEdges = new ArrayList<>(visitedEdges);
             Collections.sort (sortedEdges);
             String SortedCycle = String.valueOf(sortedEdges);
-            if(!CyclesCount.contains(SortedCycle)){
-                    CyclesCount.add(SortedCycle);
+            if(!cyclesCountSet.contains(SortedCycle)){
+                    cyclesCountSet.add(SortedCycle);
                     CountCycles++;
                 }
-            //System.out.println("Edges " + VisitedEdges);
-            //System.out.println("Nodes " + VisitedNodes);
+            //System.out.println("Edges " + visitedEdges);
+            //System.out.println("Nodes " + visitedNodes);
 
 
-            VisitedEdges.remove(muchie);
+            visitedEdges.remove(muchie);
         }
-        CountElements--;
+        countElements--;
 
     }
 }

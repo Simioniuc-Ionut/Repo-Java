@@ -65,10 +65,10 @@ public class Main {
         System.out.print("Timp total " + totalTime);
 
         //Bonus:
-        WheelGraph wheel = new WheelGraph( 4);
-        wheel.SetTheMatrixOfWhell();
-        wheel.GetTheMatrixOfWhell();
-        wheel.GetCycles();
+        WheelGraph wheel = new WheelGraph( 6);
+        wheel.setTheMatrixOfWhell();
+        wheel.getTheMatrixOfWhell();
+        wheel.getCycles();
 
     }
 }
