@@ -1,9 +1,8 @@
 package  org.example;
 
 public class Main {
-
     public static void main(String[] args) {
-       /*
+        /*
        //Compulsory
         //Ex1
         System.out.print("Hello World!");
@@ -55,10 +54,10 @@ public class Main {
         if (args.length<3){
             System.out.println("Not enough arguments");
         }
-        Homework b = new Homework(Integer.parseInt(args[2]),Integer.parseInt(args[0]),Integer.parseInt(args[1]));
-        b.esteValid();
-        System.out.println(b.list);
-         */
+        Homework c = new Homework(Integer.parseInt(args[2]),Integer.parseInt(args[0]),Integer.parseInt(args[1]));
+        c.esteValid();
+        System.out.println(c.list);
+        */
         long endRuningTime= System.currentTimeMillis();
         long totalTime = endRuningTime - startRuningTime;
 
