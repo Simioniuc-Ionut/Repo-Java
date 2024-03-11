@@ -48,7 +48,7 @@ public class Main {
         Homework a = new Homework(4,25);
         System.out.println(a.esteReductibil());
 
-        Homework b = new Homework(1,13,15);
+        Homework b = new Homework(1,100,200);
         b.esteValid();
         /*
         if (args.length<3){
@@ -64,7 +64,7 @@ public class Main {
         System.out.print("Timp total " + totalTime);
 
         //Bonus:
-        WheelGraph wheel = new WheelGraph( 6);
+        WheelGraph wheel = new WheelGraph( 4);
         wheel.setTheMatrixOfWhell();
         wheel.getTheMatrixOfWhell();
         wheel.getCycles();

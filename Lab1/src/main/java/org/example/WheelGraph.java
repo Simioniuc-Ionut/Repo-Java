@@ -121,7 +121,7 @@ public class WheelGraph {
 
         for (int i = 0; i < N; i++) {
             if (matrix[vertex][i] == 1 &&  !visitedNodes.contains(i)){
-                // Reprezentăm întotdeauna muchia ca "nodul mai mic - nodul mai mare"
+                // Reprezentam intotdeauna muchia ca "nodul mai mic - nodul mai mare"
                 String muchie = vertex < i ? String.valueOf(vertex) + "-" + String.valueOf(i) : String.valueOf(i) + "-" + String.valueOf(vertex);
                 visitedEdges.add(muchie);
 
@@ -136,7 +136,7 @@ public class WheelGraph {
 
         if (countElements > 2 && matrix[vertex][startVertex] == 1) {
 
-            // Reprezentăm întotdeauna muchia ca "nodul mai mic - nodul mai mare"
+            // Reprezentam intotdeauna muchia ca "nodul mai mic - nodul mai mare"
             String muchie = startVertex < vertex ? String.valueOf(startVertex) + "-" + String.valueOf(vertex) : String.valueOf(vertex) + "-" + String.valueOf(startVertex);
             visitedEdges.add(muchie);
 
