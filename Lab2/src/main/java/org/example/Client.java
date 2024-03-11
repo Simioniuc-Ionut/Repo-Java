@@ -4,15 +4,19 @@ import java.time.LocalTime;
 import java.util.Objects;
 
 enum ClientType{
-    REGULAR, PREMIUM;
+    REGULAR, PREMIUM
 }
+
+/**
+ *  Clasa Client reprezinta clientul care are un anumit nume,type,si are programare intr un anumit interval de timp
+ */
 public class Client{
     private String name;
-    private int minTime;
-    private int maxTime;
-    private ClientType type;
+    private LocalTime minTime;
+    private LocalTime maxTime;
+    private final ClientType type;
 
-    public Client(String name,int minTime,int maxTime , ClientType type){
+    public Client(String name,LocalTime minTime,LocalTime maxTime , ClientType type){
          this.name = name;
          this.minTime = minTime;
          this.maxTime = maxTime;
@@ -23,11 +27,11 @@ public class Client{
         return name;
     }
 
-    public int getMinTime() {
+    public LocalTime getMinTime() {
         return minTime;
     }
 
-    public int getMaxTime() {
+    public LocalTime getMaxTime() {
         return maxTime;
     }
 
@@ -35,11 +39,11 @@ public class Client{
         return type;
     }
 
-    public void setMinTime(int minTime) {
+    public void setMinTime(LocalTime minTime) {
         this.minTime = minTime;
     }
 
-    public void setMaxTime(int maxTime) {
+    public void setMaxTime(LocalTime maxTime) {
         this.maxTime = maxTime;
     }
 

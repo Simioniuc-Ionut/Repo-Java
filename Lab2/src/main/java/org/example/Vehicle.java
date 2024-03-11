@@ -1,25 +1,20 @@
 package org.example;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
-public class Vehicle{
-    private String name;
-    private Depot depot;
-    private List<Client> clients;
+/**
+ * Clasa Vehicle este abstracta ,car are un nume de masina , si un anumit depozit unde este inregistrata
+ */
+public  abstract class  Vehicle{
+    protected String name;
+    protected Depot depot;
     public Vehicle(String name,Depot depot) {
         this.name = name;
         this.depot = depot;
-        this.clients = new ArrayList<>();
     }
 
     public String getName() {
         return name;
-    }
-
-    public List<Client> getClients() {
-        return clients;
     }
 
     public Depot getDepot() {
@@ -34,25 +29,19 @@ public class Vehicle{
         this.depot = depot;
     }
 
-    public void setClients(List<Client> clients) {
-        this.clients = clients;
-    }
-
     @Override
     public String toString() {
         return "Vehicle{" +
                 "name='" + name + '\'' +
-                ", depot=" + depot +
-                ", clients=" + clients +
+                ", depot=" + this.depot.getName() +
                 '}';
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if ((o == null) || !(o instanceof Vehicle)) return false;
         Vehicle vehicle = (Vehicle) o;
-        return Objects.equals(name, vehicle.name) && Objects.equals(depot, vehicle.depot) && Objects.equals(clients, vehicle.clients);
+        return Objects.equals(name, vehicle.name) && Objects.equals(depot, vehicle.depot);
     }
 
 }
