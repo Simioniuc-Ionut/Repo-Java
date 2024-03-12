@@ -1,3 +1,4 @@
+-Compulsory
 output: 
 ```
 Trip{nameCity='Barcelona', periodOfTime='Sunday', ticketPrice=0, attractions=[Attraction{name='BAttle', description='Music', openDays='Friday', openHours='13:00', ticketPrice=20.0}, 
