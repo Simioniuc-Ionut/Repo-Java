@@ -64,7 +64,7 @@ public class Main {
         System.out.print("Timp total " + totalTime);
 
         //Bonus:
-        WheelGraph wheel = new WheelGraph( 4);
+        WheelGraph wheel = new WheelGraph( 25);
         wheel.setTheMatrixOfWhell();
         wheel.getTheMatrixOfWhell();
         wheel.getCycles();
