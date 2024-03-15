@@ -1,0 +1,6 @@
+-Compulsory
+output: 
+```
+Trip{nameCity='Barcelona', periodOfTime='Sunday', ticketPrice=0, attractions=[Attraction{name='BAttle', description='Music', openDays='Friday', openHours='13:00', ticketPrice=20.0}, 
+Attraction{name='Infinit', description='Cultural', openDays='Friday', openHours='12:00', ticketPrice=40.0}, Attraction{name='Notredam', description='Visitable', openDays='Friday', openHours='12:', ticketPrice=3.0}]}
+```
