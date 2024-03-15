@@ -2,11 +2,10 @@ package org.example;
 
 import java.time.LocalDate;
 import java.util.*;
-import java.util.jar.Attributes;
 
-    public class Trip implements Comparable<Trip>,Payable {
+public class Trip implements Comparable<Trip>,Payable {
     private String nameCity;
-    private String periodOfTime;
+    private Pair<LocalDate,LocalDate> periodOfTime;
     private int ticketPrice;
     private ArrayList<Attraction> attractions = new ArrayList<>();
 
@@ -14,7 +13,15 @@ import java.util.jar.Attributes;
             return nameCity;
         }
 
-        public Trip(String nameCity, String periodOfTime) {
+    public Pair<LocalDate, LocalDate> getPeriodOfTime() {
+        return periodOfTime;
+    }
+
+    public ArrayList<Attraction> getAttractions() {
+        return attractions;
+    }
+
+    public Trip(String nameCity, Pair<LocalDate,LocalDate> periodOfTime) {
             this.nameCity = nameCity;
             this.periodOfTime = periodOfTime;
         }
@@ -27,6 +34,26 @@ import java.util.jar.Attributes;
             this.ticketPrice = ticketPrice;
         }
 
+        /**
+         * pentru a sti care obiecte din cele instantiate implementeaza interfata Visitable sau Payable
+         * ne folosim de "instanceof"
+         */
+        public void displayLocations(){
+            ArrayList<Attraction> sortedBstartHour = new ArrayList<>();
+            if(this.attractions!=null){
+                for(Attraction a : this.attractions){
+                    if(a instanceof Visitable){
+                        sortedBstartHour.add(a);
+                    }
+                }
+
+                sortedBstartHour.sort(Comparator.comparing(Attraction::getOpenHours));
+            System.out.println("Sort visitable locations: " + sortedBstartHour);
+            }else {
+                System.out.println("Attractions array is empty!");
+            }
+
+        }
         @Override
         public double getTicketPrice() {
             return ticketPrice;
@@ -36,15 +63,20 @@ import java.util.jar.Attributes;
             return this.nameCity.compareTo(other.getNameCity());
         }
 
-        @Override
-        public String toString() {
-            return "Trip{" +
-                    "nameCity='" + nameCity + '\'' +
-                    ", periodOfTime='" + periodOfTime + '\'' +
-                    ", ticketPrice=" + ticketPrice +
-                    ", attractions=" + attractions +
-                    '}';
-        }
+    @Override
+    public String toString() {
+        return "Trip{" +
+                "nameCity='" + nameCity + '\'' +
+                ", periodOfTime=" + periodOfTime.getFirst() + " - " + periodOfTime.getSecond() +
+                ", ticketPrice=" + ticketPrice +
+                ", attractions=" + attractions +
+                '}';
     }
+
+
+//    @Override
+//    public void getDifferentsAttractionsPerDays() {
+//    }
+}
 
 

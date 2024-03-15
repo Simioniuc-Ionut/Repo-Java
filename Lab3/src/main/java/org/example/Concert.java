@@ -1,10 +1,10 @@
 package org.example;
 
-import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Concert extends Attraction implements  Payable{
 
-    public Concert(String name, String description, String openDays, String openHours, double ticketPrice) {
+    public Concert(String name, String description, String[] openDays, LocalTime openHours, double ticketPrice) {
         super(name, description, openDays, openHours, ticketPrice);
     }
 
