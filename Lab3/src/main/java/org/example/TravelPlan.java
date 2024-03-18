@@ -95,6 +95,16 @@ public class  TravelPlan  {
                      }
               }
        }
+
+       /**
+        * acest algoritm coloreaza graful ,graful fiind trip ul.
+        * culorile folosite sunt zilele saptamanii,iar nodurile sunt atractiile
+        * nodurile colorate cu aceeasi culoare reprezinta atractiile care se pot vizita in aceeasi zi
+        * nodurile sunt conectate cu muchii,
+        * iar muchiile reprezinta intervalele orare dintre 2 noduri ,care sunt suprause = nu se pot vizita in aceeasi zi.
+        * complexitate O(n^2)
+        * @param attractions - un array cu toate atractiule
+        */
        public void greedyColoring(ArrayList<Attraction> attractions){
 
                allNodes = new ArrayList<>();
