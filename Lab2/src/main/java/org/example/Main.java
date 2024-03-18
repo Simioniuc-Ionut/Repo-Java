@@ -21,8 +21,10 @@ public class Main {
 
         Client cl1 = new Client("Client 1",LocalTime.of(8,30),LocalTime.of(10,0), ClientType.PREMIUM);
         Client cl2 = new Client("Client 2",LocalTime.of(4,20),LocalTime.of(6,0), ClientType.REGULAR);
-        Client cl3 = new Client("Client 3",LocalTime.of(5,25),LocalTime.of(6,25),ClientType.REGULAR);
-        Client cl4 = new Client("Client 3",LocalTime.of(5,25),LocalTime.of(6,25),ClientType.REGULAR);
+        Client cl3 = new Client("Client 3",LocalTime.of(6,25),LocalTime.of(7,25),ClientType.REGULAR);
+        Client cl4 = new Client("Client 4",LocalTime.of(5,25),LocalTime.of(6,25),ClientType.REGULAR);
+        Client cl5 = new Client("Client 5",LocalTime.of(9,0),LocalTime.of(9,30),ClientType.REGULAR);
+        Client cl6 = new Client("Client 6",LocalTime.of(5,0),LocalTime.of(9,0),ClientType.REGULAR);
 
         Vehicle vehicle1 = new Trucks("Toyota" , depot,50);
         Vehicle vehicle2 = new Drone("Mazada" , depot, LocalTime.of(4,30));
@@ -77,11 +79,13 @@ public class Main {
         arrayOfDepot[4]=depot4;
 
 
-        Client arrayOfClients[] = new Client[4];
+        Client arrayOfClients[] = new Client[6];
         arrayOfClients[0]=cl1;
         arrayOfClients[1]=cl2;
         arrayOfClients[2]=cl3;
         arrayOfClients[3]=cl4;
+        arrayOfClients[4]=cl5;
+        arrayOfClients[5]=cl6;
 
         System.out.println("-------All Depots from problem--------");
         Problem problem = new Problem(arrayOfDepot);
@@ -100,13 +104,20 @@ public class Main {
         }
         System.out.println();
         System.out.println("-----Tour------");
-
         /**
          * Creez un tour care asigneaza clietnii(in functie de localtime) la vehiculul corespunzator
          */
         Tour tour = new Tour(vehicle3);
         tour.setClients(arrayOfClients);
         System.out.println(tour.toString());
+
+        System.out.println("----------Random Generator--------");
+        Depot generateDepot = new Depot("Depot R");
+
+        Tour randomTourInstance = new Tour();
+        ArrayList<Client> randomClients = new ArrayList<>(randomTourInstance.getRandomInstance(generateDepot));
+        randomTourInstance.setClients(randomClients.toArray(Client[]::new));
+        System.out.println(randomTourInstance);
 
     }
 }
