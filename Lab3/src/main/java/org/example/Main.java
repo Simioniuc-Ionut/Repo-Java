@@ -65,7 +65,6 @@ public class Main {
 
 
         //Linked list
-
         /*
         LinkedList<Integer> list = new LinkedList<>();
         list.add(1);
