@@ -4,3 +4,18 @@ output:
 Trip{nameCity='Barcelona', periodOfTime='Sunday', ticketPrice=0, attractions=[Attraction{name='BAttle', description='Music', openDays='Friday', openHours='13:00', ticketPrice=20.0}, 
 Attraction{name='Infinit', description='Cultural', openDays='Friday', openHours='12:00', ticketPrice=40.0}, Attraction{name='Notredam', description='Visitable', openDays='Friday', openHours='12:', ticketPrice=3.0}]}
 ```
+-Homework:
+ output:
+```
+Sort visitable locations: 
+[
+Attraction{name='BAttle', description='Music', openDays='[Monday, Tuesday, Wednesday]', openHours='01:00' Interval : null-null},
+Attraction{name='Infinit', description='Cultural', openDays='[Monday]', openHours='02:00' Interval : null-null}, 
+Attraction{name='Notredam', description='Visitable', openDays='[Monday, Tuesday, Wednesday, Thursday]', openHours='02:00' Interval : null-null}
+]
+
+Opening hour of a given date: 14:00
+Opening hour of a given date: 10:30
+Opening hour of a given date: 12:30
+Opening hour of a given date: 10:30
+```
