@@ -51,8 +51,9 @@ public class Main {
         /**
          * Luam data deschiderii pentru o data(opening hour of a given date);
          */
-        System.out.println("Opening hour of a given date: " + a4.getOpeningHour("Monday"));
-        System.out.println("Opening hour of a given date: " + a3.getOpeningHour("Tuesday"));
+
+        System.out.println("Opening hour of a given date: " + a4.getOpeningHour("Tuesday"));
+        System.out.println("Opening hour of a given date: " + a3.getOpeningHour("Monday"));
         System.out.println("Opening hour of a given date: " + a2.getOpeningHour("Wednesday"));
         System.out.println("Opening hour of a given date: " + a1.getOpeningHour("Wednesday"));
 

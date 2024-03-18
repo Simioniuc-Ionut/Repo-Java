@@ -94,56 +94,5 @@ public class  TravelPlan  {
                      }
               }
        }
-       /*
-       public class  TravelPlan  {
-
-       Map<String , Attraction> travelPlan;
-       ArrayList<String> allDays;
-
-       public TravelPlan() {
-              allDays = new ArrayList<>();
-              allDays.add("Monday");
-              allDays.add("Tuesday");
-              allDays.add("Wednesday");
-              allDays.add("Thursday");
-              allDays.add("Friday");
-              allDays.add("Saturday");
-              allDays.add("Sunday");
-       }
-
-       public void setTravelPlan(ArrayList<Attraction> attractionsCopy) {
-              travelPlan = new HashMap<>();
-              int numberOfAttractions=attractionsCopy.size();
-              //System.out.println(numberOfAttractions+" number of attractions remains");
-              /**
-               * Sortam attractions, astfel incat primele atractii parcurse sunt cele cu cele mai putine zile opendays.
-
-              attractionsCopy.sort(Comparator.comparingInt(a -> a.getOpenDays().length));
-
-              for(String day : allDays){
-              for(Attraction a : attractionsCopy){
-                     for(int j =0; j<7; j++){
-                            if(j<a.getOpenDays().length){
-
-                                   if(Objects.equals(a.getOpenDays()[j], day)  ) {
-
-                                          if(travelPlan.get(day) == null && !travelPlan.containsValue(a)){
-                                                 //pt prima valoare, cand ziua e goala;
-                                                 travelPlan.put(day,a);
-                                                 numberOfAttractions--;
-                                                 break;
-                                          }
-                                   }
-                            }
-                     }
-              }
-       }
-       // System.out.println(numberOfAttractions+" number of attractions remains");
-              if(numberOfAttractions!=0){
-              //au mai ramas atractii care nu se pot vizita in nici una din zile,deoarece se viziteaza in acea zi alte atractii
-              System.out.println("Not all attractions are assigned,in TravelPlan");
-       }
-}
-
-        */
+      
 }
