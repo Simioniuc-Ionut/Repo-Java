@@ -38,7 +38,7 @@ public class Main {
         a1.setTimetable(periodOfVisiting);
         TimeInterval periodOfVisiting2 = new TimeInterval(LocalTime.of(12,30),LocalTime.of(13,30));
         a2.setTimetable(periodOfVisiting2);
-        TimeInterval periodOfVisiting3 = new TimeInterval(LocalTime.of(10,30),LocalTime.of(14,30));
+        TimeInterval periodOfVisiting3 = new TimeInterval(LocalTime.of(10,30),LocalTime.of(14,0));
         a3.setTimetable(periodOfVisiting3);
         TimeInterval periodOfVisiting4 = new TimeInterval(LocalTime.of(14,0),LocalTime.of(15,0));
         a4.setTimetable(periodOfVisiting4);
@@ -64,6 +64,10 @@ public class Main {
         travelPlan.setTravelPlan(tripToBarca.getAttractions());
         travelPlan.printTravelPlan();
 
+        System.out.println("------Greedy------");
+        TravelPlan greedyTravelPlan1 = new TravelPlan(tripToBarca.getPeriodOfTime());
+        greedyTravelPlan1.greedyColoring(tripToBarca.getAttractions());
+        greedyTravelPlan1.printGreedyColoring();
 
         //Linked list
         /*

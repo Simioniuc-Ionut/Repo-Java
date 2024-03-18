@@ -1,5 +1,6 @@
 package org.example;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.util.*;
@@ -8,7 +9,7 @@ public class  TravelPlan  {
 
        Map<String , LinkedList<Attraction>> travelPlan;
        ArrayList<String> allDays;
-
+       ArrayList<Node> allNodes;
        public TravelPlan(Pair<LocalDate,LocalDate> periodOfTime) {
               //adaug perioada de trip.
               allDays = new ArrayList<>();
@@ -94,5 +95,74 @@ public class  TravelPlan  {
                      }
               }
        }
-      
+       public void greedyColoring(ArrayList<Attraction> attractions){
+
+               allNodes = new ArrayList<>();
+              for(int i=0; i< attractions.size(); i++){
+                     Node n = new Node(attractions.get(i).getName(),attractions.get(i).getOpenDays(),attractions.get(i).getStartHour(),attractions.get(i).getEndHour(),i);
+                     allNodes.add(n);
+              }
+              //le am alocat o ordine ,in functie de numarul de culori posibile
+              allNodes.sort(Comparator.comparingInt(a -> a.getColours().length));
+
+              for(int i=0; i< attractions.size(); i++){
+                     System.out.println("  " +allNodes.get(i).getNumber()+ " "+ allNodes.get(i).getNameOfAttraction());
+              }
+              int[][] matrixOfNodes= new int[allNodes.size()][allNodes.size()];
+
+              //trebuie sa creez matricea unde muchiile reprezinta attractiile care sunt imposibil de vizitat in aceeasi zi.
+
+              for(int i=0; i<allNodes.size(); i++) {
+                     for(int j=0; j<allNodes.size(); j++) {
+                            if(i != j && allNodes.get(i).getEndInterval().isAfter(allNodes.get(j).getStartInterval()) && allNodes.get(i).getStartInterval().isBefore(allNodes.get(j).getEndInterval())) {
+                                   //Nodul i se termină după ce a început nodul j și nodul i începe înainte de a se termina nodul j = suprapunere, nu putem vizita în aceeași zi
+                                   matrixOfNodes[i][j]=1;
+                                   matrixOfNodes[j][i]=1;
+                           }else {
+                                   matrixOfNodes[i][j]=0;
+                                   matrixOfNodes[j][i]=0;
+                           }
+                     }
+              }
+
+              System.out.println("Matrix of sorted Nodes" + Arrays.deepToString(matrixOfNodes));
+              ArrayList<String> colorsUsed = new ArrayList<>();
+              for(int i=0; i<allNodes.size(); i++) {
+                     colorsUsed.clear();//resetam culorile
+                     for(int j=0; j<allNodes.size(); j++) {
+                            if(matrixOfNodes[i][j] == 1){//inseamna ca cele 2 noduri nu pot fi colorate cu aceeasi culoare
+                                if(allNodes.get(j).getIsColored()){
+                                       colorsUsed.add(allNodes.get(j).getCurrentColor());
+                                }
+                            }
+                     }
+                     for(String colors : allNodes.get(i).getColours()){
+                            if(!colorsUsed.contains(colors)){
+                                   allNodes.get(i).setCurrentColor(colors);
+                             break;
+                            }
+                     }
+
+              }
+
+
+       }
+       public void printGreedyColoring(){
+              System.out.println("------Nodes------");
+              int ok=0;
+              for(String color : this.allDays){
+                   ok=0;
+                     for(Node n : allNodes){
+                            if(Objects.equals(n.getCurrentColor(), color)){
+                                   if(ok == 0){
+                                          System.out.print(color+ " : ");
+                                          ok=1;
+                                   }
+                                   System.out.println(n.getNumber()  + ":" + n.getNameOfAttraction());
+                            }
+                     }
+
+              }
+       }
+
 }
