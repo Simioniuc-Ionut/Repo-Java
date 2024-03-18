@@ -7,7 +7,13 @@ Attraction{name='Infinit', description='Cultural', openDays='Friday', openHours=
 -Homework:
  output:
 ```
-Sort visitable locations: [Attraction{name='BAttle', description='Music', openDays='[Monday, Tuesday, Wednesday]', openHours='01:00' Interval : null-null}, Attraction{name='Infinit', description='Cultural', openDays='[Monday]', openHours='02:00' Interval : null-null}, Attraction{name='Notredam', description='Visitable', openDays='[Monday, Tuesday, Wednesday, Thursday]', openHours='02:00' Interval : null-null}]
+Sort visitable locations: 
+[
+Attraction{name='BAttle', description='Music', openDays='[Monday, Tuesday, Wednesday]', openHours='01:00' Interval : null-null},
+Attraction{name='Infinit', description='Cultural', openDays='[Monday]', openHours='02:00' Interval : null-null}, 
+Attraction{name='Notredam', description='Visitable', openDays='[Monday, Tuesday, Wednesday, Thursday]', openHours='02:00' Interval : null-null}
+]
+
 Opening hour of a given date: 14:00
 Opening hour of a given date: 10:30
 Opening hour of a given date: 12:30
