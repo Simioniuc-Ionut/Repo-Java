@@ -13,7 +13,9 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
-
+dependencies {
+    implementation ("com.github.javafaker:javafaker:1.0.2")
+}
 tasks.test {
     useJUnitPlatform()
 }
