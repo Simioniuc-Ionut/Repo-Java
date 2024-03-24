@@ -1,0 +1,20 @@
+Laborator 4:
+-Compulsory:
+ -output:
+```
+----Persons---
+Person{name='Maria'}
+Person{name='Ioana'}
+Person{name='Ana'}
+Person{name='Andrei'}
+Person{name='Florin'}
+Person{name='Robert'}
+----Drivers---
+Person{name='Robert'}
+Person{name='Maria'}
+Person{name='Andrei'}
+----Passengers---
+Person{name='Ana'}
+Person{name='Florin'}
+Person{name='Ioana'}
+```
