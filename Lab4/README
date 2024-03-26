@@ -18,3 +18,15 @@ Person{name='Ana'}
 Person{name='Florin'}
 Person{name='Ioana'}
 ```
+-HomeWork:
+ -Output:
+```
+[5, 4, 6]
+Fake persons [Person{name= Tristan' age= 61'isDrive= true'Destination= East Caitlinchester'}, Person{name= Jamaal' age= 61'isDrive= true'Destination= Pfannerstillchester'}, Person{name= Mikel' age= 43'isDrive= true'Destination= New Joseborough'}]
+-----------
+Driver : Robert destination 4 Passenger: Florin destination 3
+Driver : Ana destination 5 Passenger: Andrei destination 5
+Driver : Maria destination 6 Passenger: Ioana destination 6
+Driver : Robert destination 4 Passenger: Ex1 destination 4
+
+```
