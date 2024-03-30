@@ -5,47 +5,85 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 public class Repository {
-    private String directory;
-    private Map<Person, List<Document>> documents = new HashMap<>();
-
-    public Repository(String directory) {
+    private final String directory;
+    private final Map<Person, List<Document>> documents = new HashMap<>();
+    private File[] subdirectoare;
+    public Repository(String directory) throws InvalidRepositoryException{
+        File dir = new File(directory);
+        if (!dir.exists() || !dir.isDirectory()) {
+            throw new InvalidRepositoryException(new Exception("Directory " + directory + " does not exist or is not a directory"));
+        }
         this.directory=directory;
-      //  loadDocuments();
     }
-    private void loadDocuments(){
-        //read all sub-directories
-        //c:...
-
-        //Read all files in the sub-directories
-        //diploma_bac.pdg. etc
+    public void loadDocumets() throws InvalidRepositoryException,MasterRepositoryFailException {
         File masterDir = new File(directory);
-        for (File personDir : masterDir.listFiles()) {
-            if (personDir.isDirectory()) {
-                // id-ul este inclus în numele directorului
-                int id = Integer.parseInt(personDir.getName().split("_")[1]);
-                Person person = new Person(id, personDir.getName());
-                List<Document> personDocuments = new ArrayList<>();
-                for (File documentFile : personDir.listFiles()) {
-                    //formatul este inclus în numele fișierului
-                    String format = documentFile.getName().split("\\.")[1];
-                    Document document = new Document(documentFile.getName(), format, person);
-                    personDocuments.add(document);
+        Set<Integer> allIds = new HashSet<>();
+
+        for (File fileEmploys : Objects.requireNonNull(masterDir.listFiles())) {
+            if (fileEmploys.isDirectory()) {
+                int idEmplyer = Integer.parseInt(fileEmploys.getName().split("_")[1]);
+                String nameEmployer = fileEmploys.getName().split("_")[0];
+                Person employer = new Person(idEmplyer,nameEmployer);
+                //daca exista un angajat cu acelasi id, arunc exceptia
+                if(allIds.contains(idEmplyer)) {
+                    throw new MasterRepositoryFailException(new Exception("Already exist an employer with the same id"));
+                }else{
+                    allIds.add(idEmplyer); //adaug id ul in lista cu toate idurile
                 }
-                documents.put(person, personDocuments);
+                List<Document> employerDocuments = new ArrayList<>();
+
+                for(File filesFromEmployerDirectory : Objects.requireNonNull(fileEmploys.listFiles())){
+                    //verific daca nu am alte directoare in directorul emplyer
+                    if(filesFromEmployerDirectory.isDirectory()){
+                        System.out.println("aici ");
+                        throw new InvalidRepositoryException(new Exception("Directory exist in employer folder"));
+                    }
+
+                    String format = filesFromEmployerDirectory.getName().split("\\.")[1];//ia dupa punct . ".txt"
+                    String fileName = filesFromEmployerDirectory.getName().split("\\.")[0];
+                    Document employerDocument = new Document(fileName,format,employer);
+
+                    employerDocuments.add(employerDocument);
+                }
+                documents.put(employer, employerDocuments);
+
+            }else{
+                throw new InvalidRepositoryException(new Exception("Invalid employer directory"));
             }
+
         }
 
+
     }
 
-    public void printContentOfRepository() throws IOException {
+    public void findSubdirectoare() throws InvalidRepositoryException{
+        //ne asiguram in caz ca nu a fost creata lista de subdirectoare
         File director = new File(this.directory);
-        File[] subdirectoare = director.listFiles(File::isDirectory);
-        for (File subdirector : subdirectoare) {
+        this.subdirectoare = director.listFiles(File::isDirectory);
+        if(subdirectoare==null || subdirectoare.length==0){
+            //daca subidercotrul nu este valid ,va returna null. arunc o exceptie
+            throw new InvalidRepositoryException(new Exception("Invalid Directory" + this.directory));
+        }
+    }
+    public File[] getSubdirectoare(){
+        return this.subdirectoare;
+    }
+    public void printContentsOfEmployers(){
+        for(Person employer : documents.keySet()){
+             System.out.println("Employer: " + employer.name() + " id : " + employer.id() + "\n" +
+                    " Documents: " + "\n" +
+                     documents.get(employer).stream()
+                             .map(Objects::toString)
+                             .collect(Collectors.joining("\n")));
+        }
+    }
+    public void printContentOfRepository() throws InvalidRepositoryException  {
+        for (File subdirector : this.subdirectoare) {
             System.out.println(subdirector.getName());
         }
-
     }
 }

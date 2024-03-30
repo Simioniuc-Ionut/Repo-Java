@@ -5,6 +5,7 @@ import java.net.URL;
 
 public class InvalidRepositoryException extends  Exception {
     public InvalidRepositoryException(Exception ex) {
-        super("Invalid repository.", ex);
+
+        super("Invalid Repository : " + ex, ex);
     }
 }
