@@ -7,7 +7,7 @@ import java.nio.file.InvalidPathException;
 
 public class View extends Command{
 
-    public View(String path) throws InvalidExecuteException{
+    public View(String path){
         super(path);
     }
     @Override

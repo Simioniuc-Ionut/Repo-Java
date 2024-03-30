@@ -7,11 +7,7 @@ import java.nio.file.InvalidPathException;
 public abstract class Command {
    protected String path;
 
-    public Command(String path) throws InvalidExecuteException{
-        File dir = new File(path);
-        if (!dir.exists() || !dir.isDirectory()) {
-            throw new InvalidExecuteException(new Exception(" : Invalid path"));
-        }
+    public Command(String path) {
         this.path = path;
     }
 

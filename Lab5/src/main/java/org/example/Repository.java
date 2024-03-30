@@ -86,4 +86,8 @@ public class Repository {
             System.out.println(subdirector.getName());
         }
     }
+
+    public Map<Person, List<Document>> getDocuments() {
+        return documents;
+    }
 }

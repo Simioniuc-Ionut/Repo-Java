@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class Report extends Command{
 
-    public Report(String path) throws InvalidExecuteException {
+    public Report(String path) {
         super(path);
     }
     private  Repository repo;

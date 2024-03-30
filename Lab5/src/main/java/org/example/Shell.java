@@ -9,7 +9,7 @@ public class Shell {
         //partea de repository
 
         try {
-            Repository repo = new Repository("C:\\Users\\Asus\\Documents\\Facultate\\Anul2\\Sem2\\Java\\Repo-Java\\Lab5\\src\\main\\resources\\Master");
+            Repository repo = new Repository("C:\\Users\\Asus\\Documents\\Facultate\\Anul2\\Sem2\\Java\\Repo-Java_vechi\\Lab5\\src\\main\\resources\\Master");
             repo.findSubdirectoare();
             repo.loadDocumets();
             repo.printContentOfRepository();
@@ -49,7 +49,7 @@ public class Shell {
                 }
                 if(command.equals("view")){
                     System.out.println("view command called");
-                  //C:/Users/Asus/Documents/Facultate/Anul2/Sem2/Java/Repo-Java/Lab5/src/main/resources/Master/Andrei_34567/SaraFile.txt
+                  //C:/Users/Asus/Documents/Facultate/Anul2/Sem2/Java/Repo-Java_vechi/Lab5/src/main/resources/Master/Andrei_34567/SaraFile.txt
                     if(partsOfCommand.length>1){
                         //inseamna ca avem calea
                         View viewFile = new View(path);
@@ -61,7 +61,7 @@ public class Shell {
                 }
                 if(command.equals("report")){
                     System.out.println("report command called");
-                    //C:/Users/Asus/Documents/Facultate/Anul2/Sem2/Java/Repo-Java/Lab5/src/main/resources/Master
+                    //C:/Users/Asus/Documents/Facultate/Anul2/Sem2/Java/Repo-Java_vechi/Lab5/src/main/resources/Master
 
                     if(partsOfCommand.length>1){
                         Report report = new Report(path);
@@ -74,10 +74,11 @@ public class Shell {
                 }
                 if(command.equals("export")){
                     System.out.println("export command called");
-                    //C:/Users/Asus/Documents/Facultate/Anul2/Sem2/Java/Repo-Java/Lab5/src/main/resources/Master
+                    //C:/Users/Asus/Documents/Facultate/Anul2/Sem2/Java/Repo-Java_vechi/Lab5/src/main/resources/Master
 
                     if(partsOfCommand.length>1){
-
+                    Export export = new Export(path);
+                    export.execute();
 
                     }else {
                         throw new InvalidExecuteException(new IOException(" No path "));
@@ -90,3 +91,5 @@ public class Shell {
 
     }
 }
+//jar comand:
+//java -jar .\Lab5-1.0-SNAPSHOT.jar
