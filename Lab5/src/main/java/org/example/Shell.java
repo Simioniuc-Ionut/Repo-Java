@@ -40,9 +40,16 @@ public class Shell {
             }
             try{
                 if(command.equals("help")){
-                    System.out.println("shell> : commands : " + "| view /path/to/file | "
-                            + "| report /path/to/file | "
-                            + " export /path/to/file");
+                    System.out.println("""
+                            shell> : commands : \
+
+                            | view /path/to/file | \
+
+                            | report /path/to/file |\
+
+                            | export /path/to/file |\
+
+                            | read-Excel |""");
                     String currentDirectory = System.getProperty("user.dir");
                     System.out.println("Directorul curent este: " + currentDirectory);
 
@@ -83,6 +90,16 @@ public class Shell {
                     }else {
                         throw new InvalidExecuteException(new IOException(" No path "));
                     }
+                }
+                if(command.equals("read-Excel")){
+                //C:/Users/Asus/Documents/Facultate/Anul2/Sem2/Java/Repo-Java_vechi/Lab5/src/main/resources
+                    ExcelReader reader = new ExcelReader(path);
+                    reader.execute();
+                    System.out.println("------");
+                    reader.printAbilitiesOfPeson();
+                    System.out.println("------");
+                    reader.createGroups();
+                    reader.printMaximalGroups();
                 }
             }catch (Exception err){
                 System.out.println("Error: " + err.getMessage());

@@ -1,6 +1,7 @@
 package org.example;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.InvalidPathException;
 
@@ -19,6 +20,6 @@ public abstract class Command {
         }
         return true;
     }
-    public abstract void execute() throws InvalidExecuteException;
+    public abstract void execute() throws IOException;
 
 }
