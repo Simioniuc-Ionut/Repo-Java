@@ -1,9 +1,9 @@
 package org.example;
 
+import org.example.Exception.InvalidRepositoryException;
+import org.example.Exception.MasterRepositoryFailException;
+
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -12,14 +12,14 @@ public class Repository {
     private final String directory;
     private final Map<Person, List<Document>> documents = new HashMap<>();
     private File[] subdirectoare;
-    public Repository(String directory) throws InvalidRepositoryException{
+    public Repository(String directory) throws InvalidRepositoryException {
         File dir = new File(directory);
         if (!dir.exists() || !dir.isDirectory()) {
             throw new InvalidRepositoryException(new Exception("Directory " + directory + " does not exist or is not a directory"));
         }
         this.directory=directory;
     }
-    public void loadDocumets() throws InvalidRepositoryException,MasterRepositoryFailException {
+    public void loadDocumets() throws InvalidRepositoryException, MasterRepositoryFailException {
         File masterDir = new File(directory);
         Set<Integer> allIds = new HashSet<>();
 

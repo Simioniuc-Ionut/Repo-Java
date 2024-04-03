@@ -5,12 +5,10 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import com.github.javafaker.Faker;
 
 import javax.print.DocFlavor;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 public class ExcelReader extends  Command{
@@ -20,6 +18,10 @@ public class ExcelReader extends  Command{
     }
     Map<Person, List<String>> abilities = new HashMap<>();
     List<Set<Person>> maximalGroups  = new ArrayList<>();
+
+    //non trivial solution
+    Map<Person, List<String>> allPersonWithAbilities = new HashMap<>();
+
     @Override
     public void execute() throws IOException {
 
@@ -68,10 +70,69 @@ public class ExcelReader extends  Command{
             throw new IOException(new Exception("Excel read error "));
         }
     }
+    public void createNonTrivialRepository(){
+        Faker faker = new Faker();
+
+        Workbook nonTrivialWorkbook = new XSSFWorkbook(); //creez un workbook
+        Sheet sheet = nonTrivialWorkbook.createSheet("Non Trivial"); //creez o foaie
+
+        //adaug date in foaie
+        for(int id =0 ; id<1000; id++){
+            Row row = sheet.createRow(id);
+
+            String fakeName =faker.funnyName().name();
+            //adaug id ul unic
+            Cell cell = row.createCell(0);
+            cell.setCellValue(id);
+            //adaug numele generat random
+            Cell cell2 = row.createCell(1);
+            cell2.setCellValue(fakeName);
+
+            //creez o persoana fake
+            Person randomPerson = new Person(id,fakeName);
+
+            //luam abilitati aleatorii:
+            //List<String> curentAbilitiesOfRandomPerson = new ArrayList<>();
+            List<String> allAbilites = new ArrayList<>();
+            allAbilites.add("Programare");
+            allAbilites.add("Design Grafic");
+            allAbilites.add("Managemente de Proiect");
+            allAbilites.add("Ilustratie");
+            allAbilites.add("Vanzari");
+            allAbilites.add("Resurse Umane");
+            allAbilites.add("Marketing");
+            allAbilites.add("Serviciu Clietni");
+            int currentNumberOfElements=7;
+            int randomNumberOfAbilities = faker.number().numberBetween(1,8);
+            List<String> allRandomAbilities = new ArrayList<>();
+            for(int index = 1 ; index <=randomNumberOfAbilities; index++){
+                int indexRandomPos = faker.random().nextInt(0,currentNumberOfElements);
+                String randomAbility = allAbilites.get(indexRandomPos);
+                //curentAbilitiesOfRandomPerson.add(randomAbility);
+                //adaugam abilitatea in celula
+                Cell cellAbility = row.createCell((1+index));
+                cellAbility.setCellValue(randomAbility);
+                allRandomAbilities.add(randomAbility);
+
+                //scoatem din personAbilities abilitatea deja adaugata,pt a nu adauga aceeasi abilitate
+                allAbilites.remove(indexRandomPos);
+                currentNumberOfElements--;
+            }
+            allPersonWithAbilities.put(randomPerson,allRandomAbilities);
+        }
+
+        //scriu workbook ul intr un fisier
+        // scrie workbook-ul într-un fișier
+        try (FileOutputStream outputStream = new FileOutputStream("C:/Users/Asus/Documents/Facultate/Anul2/Sem2/Java/Repo-Java_vechi/Lab5/src/main/resources/NonTrivialRepository.xlsx")) {
+            nonTrivialWorkbook.write(outputStream);
+        } catch (IOException e) {
+            System.out.println("Error at nontrivialRepository");
+        }
+    }
     public void createGroups(){
         //Create an invers map ,where i put for each ability a list of person that have the ability
         Map<String,List<Person>> abilitiesToPerson = new HashMap<>();
-        for(Map.Entry<Person,List<String>> entry : abilities.entrySet()){
+        for(Map.Entry<Person,List<String>> entry : allPersonWithAbilities.entrySet()){
             Person person = entry.getKey();
             List<String> personAbilities = entry.getValue();
 

@@ -15,6 +15,7 @@ dependencies {
 }
 dependencies {
     implementation 'org.freemarker:freemarker:2.3.31'
+    implementation 'com.github.javafaker:javafaker:1.0.2'
 }
 dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-core:2.13.0'

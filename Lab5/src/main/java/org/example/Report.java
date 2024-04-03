@@ -4,6 +4,8 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
+import org.example.Exception.InvalidExecuteException;
+import org.example.Exception.InvalidRepositoryException;
 
 import java.awt.*;
 import java.io.File;
@@ -29,7 +31,7 @@ public class Report extends Command{
         //crearae unui configurator freemarker
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
         try {
-            cfg.setDirectoryForTemplateLoading(new File("C:/Users/Asus/Documents/Facultate/Anul2/Sem2/Java/Repo-Java/Lab5/src/main/resources"));
+            cfg.setDirectoryForTemplateLoading(new File("C:/Users/Asus/Documents/Facultate/Anul2/Sem2/Java/Repo-Java_vechi/Lab5/src/main/resources"));
             cfg.setDefaultEncoding("UTF-8");
             cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
             cfg.setLogTemplateExceptions(false);
@@ -50,11 +52,11 @@ public class Report extends Command{
             Template template = cfg.getTemplate("report_template.ftlh");
             if (template != null) {
                 // Generarea raportului
-                try (Writer out = new FileWriter("C:/Users/Asus/Documents/Facultate/Anul2/Sem2/Java/Repo-Java/Lab5/src/main/resources/report.html")) {
+                try (Writer out = new FileWriter("C:/Users/Asus/Documents/Facultate/Anul2/Sem2/Java/Repo-Java_vechi/Lab5/src/main/resources/report.html")) {
                     template.process(model, out);
                     //deschidem fisierul:
                     System.out.println("File opened");
-                    Desktop.getDesktop().browse(new File("C:/Users/Asus/Documents/Facultate/Anul2/Sem2/Java/Repo-Java/Lab5/src/main/resources/report.html").toURI());
+                    Desktop.getDesktop().browse(new File("C:/Users/Asus/Documents/Facultate/Anul2/Sem2/Java/Repo-Java_vechi/Lab5/src/main/resources/report.html").toURI());
 
                 } catch (TemplateException e) {
                     throw new RuntimeException(e);

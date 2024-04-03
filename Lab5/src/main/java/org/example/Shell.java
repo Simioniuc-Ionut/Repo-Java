@@ -1,13 +1,15 @@
 package org.example;
 
-import java.awt.*;
+import org.example.Exception.InvalidExecuteException;
+import org.example.Exception.InvalidRepositoryException;
+import org.example.Exception.MasterRepositoryFailException;
+
 import java.io.*;
 
 public class Shell {
     public static void main(String[] args) throws IOException {
 
         //partea de repository
-
         try {
             Repository repo = new Repository("C:\\Users\\Asus\\Documents\\Facultate\\Anul2\\Sem2\\Java\\Repo-Java_vechi\\Lab5\\src\\main\\resources\\Master");
             repo.findSubdirectoare();
@@ -98,8 +100,12 @@ public class Shell {
                     System.out.println("------");
                     reader.printAbilitiesOfPeson();
                     System.out.println("------");
+                    //cream repository ul nontrivial
+                    reader.createNonTrivialRepository();
+                    //afisam grupurile;
                     reader.createGroups();
                     reader.printMaximalGroups();
+
                 }
             }catch (Exception err){
                 System.out.println("Error: " + err.getMessage());
