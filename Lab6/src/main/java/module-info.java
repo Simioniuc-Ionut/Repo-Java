@@ -7,6 +7,6 @@ module org.example.lab {
     requires java.desktop;
     //requires javafaker;
 
-    opens org.example.lab6JavaFX to javafx.fxml;
-    exports org.example.lab6JavaFX;
+   opens org.example.lab6JavaFX to javafx.fxml;
+   exports org.example.lab6JavaFX;
 }
