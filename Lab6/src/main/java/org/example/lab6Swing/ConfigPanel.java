@@ -8,8 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 
-public class ConfigPanel extends JPanel {
+public class ConfigPanel extends JPanel implements Serializable {
          final MainFrame frame;
         JLabel label;
         JSpinner rowsSpinner;
@@ -24,8 +25,8 @@ public class ConfigPanel extends JPanel {
             this.label=new JLabel("Grid size:");
             setBackground(Color.orange);
              //Crearea spinner-ilor pentru rânduri și coloane
-             rowsSpinner = new JSpinner(new SpinnerNumberModel(10, 2, 100, 1));
-             colsSpinner = new JSpinner(new SpinnerNumberModel(10, 2, 100, 1));
+             rowsSpinner = new JSpinner(new SpinnerNumberModel(5, 2, 100, 1));
+             colsSpinner = new JSpinner(new SpinnerNumberModel(5, 2, 100, 1));
 
             // Crearea butonului pentru a începe un joc nou
             JButton newGameButton = new JButton("New Game");
@@ -35,6 +36,7 @@ public class ConfigPanel extends JPanel {
                     int rows = (Integer) rowsSpinner.getValue();
                     int cols = (Integer) colsSpinner.getValue();
                     frame.canvas.updateGrid(rows, cols);
+
                 }
             });
             //newGameButton.addActionListener();
@@ -45,4 +47,9 @@ public class ConfigPanel extends JPanel {
 
         }
 
+    public void updateState(ConfigPanel newPanel) {
+        // Actualizează starea necesară
+        this.rowsSpinner.setValue(newPanel.rowsSpinner.getValue());
+        this.colsSpinner.setValue(newPanel.colsSpinner.getValue());
+    }
 }
