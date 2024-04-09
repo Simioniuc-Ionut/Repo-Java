@@ -6,10 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="50999a08-8f57-41a5-ad6a-013587ea3f20" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab5/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Lab5/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab5/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Lab5/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Lab5/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab5/src/main/java/org/example/Export.java" beforeDir="false" afterPath="$PROJECT_DIR$/Lab5/src/main/java/org/example/Export.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Lab6/src/main/java/org/example/lab6Swing/DrawingPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/Lab6/src/main/java/org/example/lab6Swing/DrawingPanel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,7 +103,7 @@
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Asus/Documents/Facultate/Anul2/Sem2/Java/Repo-Java",
+    "last_opened_file_path": "C:/Users/Asus/Documents/Facultate/Anul2/Sem2/Java/Repo-Java-Git",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -180,6 +177,7 @@
       <workItem from="1711824863207" duration="109000" />
       <workItem from="1711825094519" duration="23000" />
       <workItem from="1711825313267" duration="109000" />
+      <workItem from="1712665088965" duration="27000" />
     </task>
     <servers />
   </component>

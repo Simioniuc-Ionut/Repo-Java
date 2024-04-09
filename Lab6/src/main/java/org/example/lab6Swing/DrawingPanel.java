@@ -67,7 +67,6 @@ public class DrawingPanel extends JPanel implements Serializable {
         setPreferredSize(new Dimension(canvasWidth, canvasHeight));
         repaint();
     }
-
     public void updateGrid(int rows, int cols) {
         //canvasWidth = gridSize.
         this.rows = rows;
@@ -76,7 +75,6 @@ public class DrawingPanel extends JPanel implements Serializable {
         this.launch(rows, cols,this.canvasWeidthRecalculated,this.canvasHeightRecalculated);
         this.repaint();
     }
-
     public void randomLinesOfGridCreate() {
         GridLinesPositions = new Integer[2 * rows - 1][2 * cols - 1];
         for (int i = 0; i < 2 * rows - 1; i++) {
@@ -406,7 +404,6 @@ public class DrawingPanel extends JPanel implements Serializable {
 
 
         }
-
     public void updateState(DrawingPanel newPanel) {
         // Actualizează starea necesară
         this.rows = newPanel.rows;
