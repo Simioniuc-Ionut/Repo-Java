@@ -5,18 +5,20 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Bag{
         private final Queue<Token> tokens;
         private final int lengthOfSequence ;
-        public int turn;
+        //public int turn;
     public Bag(int n) {
         //offer = add ,dar in loc sa arunce exception ,returneaza null sau false
         this.tokens = new LinkedList<>();
-        this.turn=0;
+       // this.turn=0;
         for(int i=1; i<=n; i++){
             for(int j=i+1; j<=n; j++){
                     tokens.add(new Token(i, j));
+                    tokens.add(new Token(j, i));
             }
         }
         //amestec tokkeni pt a crea extragerea aleatoare;
@@ -34,20 +36,17 @@ public class Bag{
         }
         return extracted;
     }
-    public synchronized Token extractIntelligentTokens(){
+    public synchronized List<Token> extractIntelligentTokens(){
         if(!tokens.isEmpty()){
-            return tokens.peek();
+           //return   tokens.stream().toList(); daca fac asa returnez o lista imutabila,nu o pot modifica
+            return new ArrayList<>(tokens);//returnez o lista mutabila
         }else{
             return null;
         }
     }
     public synchronized void extractIsGood(Token token){
-        for(Token t : tokens){
-            if(t.equals(token)){
-                tokens.remove(t);
-                break;
-            }
-        }
+        boolean isRemoved = tokens.removeIf(t -> t.equals(token));
+        if(!isRemoved)
         System.out.println("Token hasn't been extracted yet");
     }
     public int getLengthOfSequence() {

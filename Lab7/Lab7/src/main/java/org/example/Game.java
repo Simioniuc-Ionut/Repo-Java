@@ -36,6 +36,7 @@ public class Game {
         int maxValueIsWiner=-1;
         String Winner = "";
         for(Player player : players) {
+            System.out.print(player.getName() + " has points: " + player.getPoints()+ " -- ");
             if (player.getPoints() > maxValueIsWiner) {
                 maxValueIsWiner = player.getPoints();
                 Winner = player.getName();
@@ -55,11 +56,11 @@ public class Game {
 
       Object lock = new Object();
       AtomicInteger round = new AtomicInteger(1);
-      int numberOfPlayers = 3;
+      int numberOfPlayers = 4;
       AtomicInteger threadTurn= new AtomicInteger(0);
 
       //partea de timeKeeper
-      long timeLimit = 1;//10 milisecunde
+      long timeLimit = 100;//10 milisecunde
       AtomicBoolean running = new AtomicBoolean(true);
       TimeKeeper timeKeeper = new TimeKeeper(timeLimit,running);
       timeKeeper.start();
@@ -69,8 +70,9 @@ public class Game {
       game.addPlayer("Player 3",lock,round,numberOfPlayers,threadTurn,timeKeeper,false);
 
       //SMART player;
-   //   game.addPlayer("Player 3",lock,round,numberOfPlayers,threadTurn,timeKeeper,true);
+        game.addPlayer("Player 4",lock,round,numberOfPlayers,threadTurn,timeKeeper,true);
+      //  game.addPlayer("Player 4",lock,round,numberOfPlayers,threadTurn,timeKeeper,true);
 
-      game.play();
+        game.play();
     }
 }

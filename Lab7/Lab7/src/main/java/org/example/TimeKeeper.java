@@ -23,7 +23,7 @@ public class TimeKeeper extends Thread {
     public void run() {
         while (running.get()) {
             long runningTime = System.currentTimeMillis() - startTime;
-            System.out.println("Running time: " + runningTime / 1000 + " seconds");
+       //     System.out.println("Running time: " + runningTime / 1000 + " seconds");
 
             if (runningTime > timeLimit) {
                 System.out.println("Time limit exceeded. Stopping game.");
