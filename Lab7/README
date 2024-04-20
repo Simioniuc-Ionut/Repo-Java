@@ -1,4 +1,4 @@
-``
+```
 Write a program that simulates the following game between a given number of players.
 At the beginning of the game there is a bag containing a number of tokens, each token being a distinct pair of numbers between 1 and n.
 Each player extracts tokens successively from the bag and must create with them closed sequences of the form t1=(i1,i2), t2=(i2,i3),...,tk=(ik,i1), where ti are tokens and i1,i2,i3,...,ik are distinct numbers.
@@ -13,7 +13,8 @@ Implement a timekeeper thread that runs concurrently with the player threads, as
 
 Implement a "smart" player. This should try to create the optimum sequence using its tiles, in some special cases.
 Verify if the graph satisfies the Ore's condition and implement, a polynomial time algorithm for determining a hamiltonian cycle in graphs that meet Ore's condition.
-``
+
+```
 <html>
   <div>
   <img src="images/round.png">
