@@ -15,10 +15,12 @@ Implement a "smart" player. This should try to create the optimum sequence using
 Verify if the graph satisfies the Ore's condition and implement, a polynomial time algorithm for determining a hamiltonian cycle in graphs that meet Ore's condition.
 
 ```
-!Lab7/images/round.png
 
 <html>
   <div>
   <img src="images/round.png">
+  </div>
+  <div>
+    <img src="images/graph.png">
   </div>
 </html>
