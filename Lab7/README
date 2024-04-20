@@ -14,4 +14,8 @@ Implement a timekeeper thread that runs concurrently with the player threads, as
 Implement a "smart" player. This should try to create the optimum sequence using its tiles, in some special cases.
 Verify if the graph satisfies the Ore's condition and implement, a polynomial time algorithm for determining a hamiltonian cycle in graphs that meet Ore's condition.
 ``
-!round
+<html>
+  <div>
+  <img src="images/round.png">
+  </div>
+</html>
