@@ -1,15 +1,20 @@
 package org.example;
 
+import org.graph4j.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
 
+
+
 public class Player extends ReentrantLock implements Runnable {
      private String name;
      private Bag bag;
      private List<Token> playerTokens = new ArrayList<Token>();
+
      private int points = 0;
 
      private final Object lock;
@@ -18,7 +23,10 @@ public class Player extends ReentrantLock implements Runnable {
      private AtomicInteger threadTurn;
      private  TimeKeeper running; //il fac static ca sa se modifice in toate celelalte instante,si volatile pt a fi thread safe
      private final boolean isSmart;
-    public Player(String name, Bag bag, Object lock, AtomicInteger round, int numberOfPlayers, AtomicInteger threadTurn, TimeKeeper running,boolean isSmart) {
+
+     private List<Node> graphRepresentation;
+    // private Graph<Token,Integer> G ;
+     public Player(String name, Bag bag, Object lock, AtomicInteger round, int numberOfPlayers, AtomicInteger threadTurn, TimeKeeper running,boolean isSmart) {
          this.name = name;
          this.bag = bag;
          this.lock = lock;
@@ -31,183 +39,7 @@ public class Player extends ReentrantLock implements Runnable {
     }
     @Override
     public void run(){
-
         synchronized(lock) { //vor putea intra cate un tread pe rand
-
-        /*   if (!isSmart) { //partea pt normal players
-                while (running.isRunning()) {
-
-                    // System.out.println("ceva ------- " + running.isRunning());
-                    if (!running.isRunning()) {
-                        break;
-                    }
-                    //verific daca mai exista jetoane
-                    if (bag.getSizeOfBag() == 0) {
-                        //inseamna ca bagul este gol
-                        //running = false;
-                        // running.set(false);
-                        running.stopGame();
-                        break;
-                    }
-                    // Extragem un jeton ,per turn
-
-                        System.out.println(name + " is playing in round " + round.get());
-
-
-                    List<Token> extractedTokens;
-                    //extragerea normala
-                    extractedTokens = bag.extractTokens(1);
-
-                    Token tokenExtractedFromBag = extractedTokens.get(0);
-
-                    //adaug jetonul in propria lista de jetoane a playerylui
-                    if (validSequence(tokenExtractedFromBag)) {
-                        //System.out.println(name + " a extras " + tokenExtractedFromBag);
-                        if(updateSequence(tokenExtractedFromBag)) {//daca s a updatat cu succe
-                            //inseamna ca incrementam punctele;
-                            this.points++;
-                        }
-
-                    }
-
-                    //daca jucatorul ajunge la lungime = cu n ,ma opresc
-                    if (playerTokens.size() == bag.getLengthOfSequence()) {
-                        System.out.println("player " + name + " has tokens size equal with " + bag.getLengthOfSequence());
-                        //running =false;
-                        // running.set(false);
-                        running.stopGame();
-                        break;
-                    }
-
-                    // Verificăm dacă mai există jetoane
-                    if (extractedTokens.isEmpty()) {
-                        // Înseamnă că sacul este gol
-                        System.out.println("---Game Over : bag has no more tokens---");
-                        // running = false;
-                        // running.set(false);
-                        running.stopGame();
-                        break;
-                    }
-
-                    try {
-                        threadTurn.incrementAndGet();
-                        if (threadTurn.get() == numberOfPlayers) {
-                            lock.notifyAll();
-                            threadTurn.set(0);
-                            round.incrementAndGet(); //incrementam runda
-                            System.out.println("---");
-                        } else {
-                            lock.wait();
-
-                        }
-                    } catch (InterruptedException e) {
-                        System.out.println("Thread lock interrupted");
-                    }
-                }
-                lock.notifyAll(); //notificam ultimul thread care asteapta in ultima runda
-            }
-            else{
-             //  System.out.println("Is an Smart");
-                while (running.isRunning()) {
-
-                    // System.out.println("ceva ------- " + running.isRunning());
-                    if (!running.isRunning()) {
-                        break;
-                    }
-                    //verific daca mai exista jetoane
-                    if (bag.getSizeOfBag() == 0) {
-                        //inseamna ca bagul este gol
-                        running.stopGame();
-                        break;
-                    }
-
-                    //Ma uit in sac si extrag jetonul perfect
-                    System.out.println("Smart " + name + " is playing in round " + round.get());
-
-                    List<Token> extractedTokens=bag.extractIntelligentTokens(); //luam tot sacul si ne uitam in el
-                    //extragerea normala
-                    boolean isValidExtractedFromBag = false;
-                    //doar pt prima extragere,luam cea mai buna decizie
-                        if(playerTokens.isEmpty()){
-                            //va incerca sa extraga cel mai bun token.
-
-                            int betterSecondDisponibleOption = 2;
-                            int betterFirstDisponibleOption = 1;
-
-                            while(!isValidExtractedFromBag) {
-                               //cauta cel mai bun first pick
-                               for(int i=0; i<bag.getSizeOfBag(); i++) {
-                                 if (extractedTokens.get(i).num1() == betterFirstDisponibleOption && extractedTokens.get(i).num2() == betterSecondDisponibleOption) {
-                                    playerTokens.add(0,extractedTokens.get(i));
-                                    bag.extractIsGood(extractedTokens.get(i));
-                                    extractedTokens.remove(i);
-                                    isValidExtractedFromBag = true;
-                                    this.points++;
-                                    break;
-                                 }
-                               }
-                              betterSecondDisponibleOption++;
-                             //in cazul extrem in care fiecare player dinainte ia tokenul (1,2) , (1,3) , ... (1,n)
-                            if(betterFirstDisponibleOption>bag.getLengthOfSequence()){
-                                betterFirstDisponibleOption ++;
-                                betterSecondDisponibleOption = betterFirstDisponibleOption + 1;
-                            }
-
-                           }
-                        }
-                        else {
-                            //extractia generala
-                            //strategia pe care o urmareste e sa extraga jetoanele foarte apropiate,de forma(i,i+1) respecrtiv(i,i-1)
-                            //astfel avand ocazia sa creeze secvente cat mai lungi
-                            while (!isValidExtractedFromBag) {
-
-                                for(int i=0; i<bag.getSizeOfBag(); i++) {
-                                    if (extractedTokens.get(i).num1() == playerTokens.get(playerTokens.size()-1).num2() && extractedTokens.get(i).num2() == extractedTokens.get(i).num1()-1) {
-                                        playerTokens.add(playerTokens.size(),extractedTokens.get(i));
-                                        bag.extractIsGood(extractedTokens.get(i));
-                                        extractedTokens.remove(extractedTokens.get(i));
-                                        isValidExtractedFromBag = true;
-                                        this.points++;
-                                        break;
-                                    }
-                                }
-                            }
-
-                        }
-
-                    //daca jucatorul ajunge la lungime = cu n ,ma opresc
-                    if (playerTokens.size() == bag.getLengthOfSequence()) {
-                        System.out.println("Smart player " + name + " has tokens size equal with " + bag.getLengthOfSequence());
-                        running.stopGame();
-                        break;
-                    }
-
-                    // Verificăm dacă mai există jetoane
-                    if (extractedTokens.isEmpty()) {
-                        // Înseamnă că sacul este gol
-                        System.out.println("---Game Over : bag has no more tokens---");
-                        running.stopGame();
-                        break;
-                    }
-
-                    try {
-                        threadTurn.incrementAndGet();
-                        if (threadTurn.get() == numberOfPlayers) {
-                            lock.notifyAll();
-                            threadTurn.set(0);
-                            round.incrementAndGet(); //incrementam runda
-                            System.out.println("---");
-                        } else {
-                            lock.wait();
-
-                        }
-                    } catch (InterruptedException e) {
-                        System.out.println("Thread lock interrupted");
-                    }
-                }
-                lock.notifyAll(); //notificam ultimul thread care asteapta in ultima runda
-            }
-        */
             while (running.isRunning()) {
 
                 // System.out.println("ceva ------- " + running.isRunning());
@@ -358,7 +190,6 @@ public class Player extends ReentrantLock implements Runnable {
      }
      return false;
     }
-
     public boolean updateSequence(Token token) {
     if (playerTokens.isEmpty() && token.num1()<token.num2()) {
         // Dacă lista este goală, adăugăm pur și simplu tokenul
@@ -384,6 +215,113 @@ public class Player extends ReentrantLock implements Runnable {
 
 }
 
+    public void setGraphRepresentation(){
+        graphRepresentation = new ArrayList<>();
+         for(Token t :  playerTokens){
+             graphRepresentation.add(new Node(t));
+         }
+         for(int i1 = 0; i1<playerTokens.size(); i1++){
+             for(int i2 = 0; i2<playerTokens.size(); i2++) {
+                 if (i1 != i2 && playerTokens.get(i1).num2() == playerTokens.get(i2).num1()) {
+                     graphRepresentation.get(i1).addEdge(playerTokens.get(i2));
+                     //graphRepresentation.addEdge(t.num2(), t2.num1());
+                 } else if (i1 != i2 && playerTokens.get(i1).num1() == playerTokens.get(i2).num2()) {
+                     graphRepresentation.get(i1).addEdge(playerTokens.get(i2));
+                 }
+             }
+         }
+    }
+
+    public boolean satisfiesOreCondition() {
+        //logica pt verificarea conditeit lui orn(oricare 2 nod neadiacente,suma gradelor >= |V(G)|
+        for(Node n : graphRepresentation){
+            for(Node m : graphRepresentation){
+                //daca oricare 2 noduri neadiacente suma gradelor lor sa fie mai mica < nr de norudi din graf => nu respecta Ore Condition
+                if(n != m && !n.getEdges().contains(m) && !m.getEdges().contains(n) && n.getNumEdges() + m.getNumEdges() < playerTokens.size()){
+                    //System.out.println(name + " cu suma : " + n.getNumEdges() + " + " +  m.getNumEdges() + " < " + playerTokens.size() + " nodes: " +  n.getNameOfNode() +" - " + m.getNameOfNode());
+                    return false;
+                }
+            }
+        }
+        return true;
+     }
+
+    public boolean getHamlitonianCycle(List<Node> path,int pos){
+        if( pos == playerTokens.size()){
+            if(path.get(pos-1).getEdges().contains(playerTokens.get(0))) {
+                path.add(path.get(0));
+                return true;
+            }else
+                return false;
+        }
+
+
+        for (Node n : new ArrayList<>(graphRepresentation)) {
+            if (path.isEmpty() || path.get(pos - 1).getEdges().contains(n.getToken())) {
+                if (!path.contains(n)) {
+                    path.add(n);
+                    graphRepresentation.remove(n);
+
+                    if (getHamlitonianCycle(path, pos + 1)) {
+                        return true;
+                    } else {
+                        path.remove(n);
+                        graphRepresentation.add(n);
+                    }
+                }
+            }
+         }
+        return  false;
+     }
+
+     public void setHamiltonianGraphForTest(){
+        graphRepresentation = new ArrayList<>();
+        playerTokens = new ArrayList<>();
+
+        Node a1 = new Node(new Token(1,2));
+        Node a2 = new Node(new Token(2,3));
+        Node a3 = new Node(new Token(3,4));
+        Node a4 = new Node(new Token(4,1));
+
+        a1.addEdge(new Token(2,3));
+        a1.addEdge(new Token(4,1));
+        a2.addEdge(new Token(3,4));
+        a2.addEdge(new Token(1,2));
+        a3.addEdge(new Token(4,1));
+        a3.addEdge(new Token(2,3));
+        a4.addEdge(new Token(1,2));
+        a4.addEdge(new Token(3,4));
+
+        graphRepresentation.add(a1);
+        graphRepresentation.add(a2);
+        graphRepresentation.add(a3);
+        graphRepresentation.add(a4);
+
+        //modific si player tokens pt a putea face testul corect
+        playerTokens.add(a1.getToken());
+        playerTokens.add(a2.getToken());
+        playerTokens.add(a3.getToken());
+        playerTokens.add(a4.getToken());
+    }
+//    public void setGraph4J(){
+//
+//        for(Node n : graphRepresentation) {
+//            System.out.println(" aa " + n.getToken());
+//            int i = G.addVertex(n.getToken());
+//            G.getVertexLabel(1);
+//            for(int m=0 ; m<n.getEdges().size(); m++){
+//                //    G.addEdge(n.getToken(), n.getEdges().get(m));
+//            G.addEdge(n.getToken(),n.getEdges().get(m));
+//            }
+//
+//        }
+//    }
+
+//    public void printGraph4j(){
+//         System.out.println(G);
+//
+//    }
+
     public int getPoints() {
         return points;
     }
@@ -397,4 +335,11 @@ public class Player extends ReentrantLock implements Runnable {
          }
          return allTokens;
     }
+    public void printGraph(){
+
+        for(Node n : graphRepresentation){
+            System.out.println("Vertex : " + n.getToken() + " vecini : " + n.getEdges());
+        }
+    }
+
 }

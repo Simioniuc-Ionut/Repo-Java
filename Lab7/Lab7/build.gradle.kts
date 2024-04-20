@@ -13,6 +13,9 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
+dependencies{
+    implementation("org.graph4j:graph4j:1.0.7")
+}
 
 tasks.test {
     useJUnitPlatform()

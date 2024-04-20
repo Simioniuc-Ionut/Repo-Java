@@ -47,16 +47,53 @@ public class Game {
             printWinner(Winner);
         }
 
+        System.out.println("\n-------- Part with Graphs --------\n");
+        calculateOreCondition();
+
+    }
+    public void calculateOreCondition(){
+        for(Player player : players){
+            System.out.println("-----"+player.getName()+"----");
+            player.setGraphRepresentation();
+            player.printGraph();
+            player.satisfiesOreCondition();
+
+            System.out.println("\n-------- Hamiltonian Finding --------\n");
+           // player.setGraph4J();
+           // player.printGraph4j();
+            if(player.satisfiesOreCondition()){ //daca conditia lui Ore este satifactua atunci stiu sigur ca exista un circuit hamiltonian
+                List<Node> path = new ArrayList<>();
+                int pos=0;
+                player.getHamlitonianCycle(path,pos);
+                System.out.print("Hamiltonin path is : ");
+                for(Node node : path){
+                    System.out.print( node.getToken() + " , ");
+                }
+                System.out.println();
+            }
+        }
+
+        //hamiltonian test
+        System.out.println("== : Hamlitonian test : ==");
+        List<Node> path = new ArrayList<>();
+        int pos=0;
+        players.get(0).setHamiltonianGraphForTest();
+        players.get(0).getHamlitonianCycle(path,pos);
+        players.get(0).printGraph();
+        System.out.print("Hamiltonin path is : ");
+        for(Node node : path){
+            System.out.print( node.getToken() + " , ");
+        }
     }
     public static void printWinner(String Winner){
         System.out.println("The winner is player " + Winner);
     }
     public static void main(String[] args) {
-      Game game = new Game(15);
+      Game game = new Game(6);
 
       Object lock = new Object();
       AtomicInteger round = new AtomicInteger(1);
-      int numberOfPlayers = 4;
+      int numberOfPlayers = 1;
       AtomicInteger threadTurn= new AtomicInteger(0);
 
       //partea de timeKeeper
@@ -65,13 +102,14 @@ public class Game {
       TimeKeeper timeKeeper = new TimeKeeper(timeLimit,running);
       timeKeeper.start();
 
-      game.addPlayer("Player 1",lock,round,numberOfPlayers,threadTurn,timeKeeper,false);
-      game.addPlayer("Player 2",lock,round,numberOfPlayers,threadTurn,timeKeeper,false);
-      game.addPlayer("Player 3",lock,round,numberOfPlayers,threadTurn,timeKeeper,false);
+    //  game.addPlayer("Player 1",lock,round,numberOfPlayers,threadTurn,timeKeeper,false);
+    //  game.addPlayer("Player 2",lock,round,numberOfPlayers,threadTurn,timeKeeper,false);
+   //   game.addPlayer("Player 3",lock,round,numberOfPlayers,threadTurn,timeKeeper,false);
 
       //SMART player;
         game.addPlayer("Player 4",lock,round,numberOfPlayers,threadTurn,timeKeeper,true);
       //  game.addPlayer("Player 4",lock,round,numberOfPlayers,threadTurn,timeKeeper,true);
+
 
         game.play();
     }
