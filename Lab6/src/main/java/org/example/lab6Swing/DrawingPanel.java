@@ -6,13 +6,13 @@ import javafx.scene.shape.Circle;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.geom.Line2D;
-import java.io.Console;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DrawingPanel extends JPanel implements Serializable {
     final MainFrame mainFrame;
@@ -32,6 +32,13 @@ public class DrawingPanel extends JPanel implements Serializable {
     String winner;
     int  canvasHeightRecalculated;
     int  canvasWeidthRecalculated;
+
+    //AI data members used
+    int[][] aiGridLine;
+    int value;
+    int lastMoveFromActionI;
+    int lastMoveFromActionJ;
+    int countAllNodesValidFromActions;
 
     public DrawingPanel(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
@@ -62,8 +69,13 @@ public class DrawingPanel extends JPanel implements Serializable {
         gameOver=false;
 
         this.randomLinesOfGridCreate();
-        //System.out.println("baaaaaaaaa" + countAllNodesValid);
-        eventStones(); //cand dau click pe cerc
+
+        //functia 1 vs 1 Co op
+          //eventStones();
+
+        //functia 1 vs AI Robots
+          aiPlay();
+
         setPreferredSize(new Dimension(canvasWidth, canvasHeight));
         repaint();
     }
@@ -71,6 +83,11 @@ public class DrawingPanel extends JPanel implements Serializable {
         //canvasWidth = gridSize.
         this.rows = rows;
         this.cols = cols;
+
+        // Eliminați vechii ascultători de evenimente de mouse ,pt a nu avea buguri cand fac new game pt AI
+        for (MouseListener ml : this.getMouseListeners()) {
+            this.removeMouseListener(ml);
+        }
 
         this.launch(rows, cols,this.canvasWeidthRecalculated,this.canvasHeightRecalculated);
         this.repaint();
@@ -127,10 +144,33 @@ public class DrawingPanel extends JPanel implements Serializable {
                 }
             }
         }
+
+       //grila Ai
+        setAiGridLine();
         //gameStatusProgress();
     }
+    private void setAiGridLine(){
+        aiGridLine = new int[rows][cols];
+        System.out.println("---Ai grid---");
+        for (int i = 0; i < 2 * rows - 1; i = i + 2) {
+            for (int j = 0; j < 2 * cols - 1; j = j + 2) {
+                if(GridLinesPositions[i][j] == 1){ // nod disponibil
+                    aiGridLine[i/2][j/2] = 1;
+                }
+            }
+        }
+       printAiGridLines();
+    }
+    private void printAiGridLines(){
+        for(int i = 0; i < rows; i++) {
+            for(int j = 0; j < cols; j++) {
+                System.out.print(" " + aiGridLine[i][j]);
+            }
+            System.out.println();
+        }
+    }
     private void printGridLines(){
-        System.out.println("------------");
+        System.out.println("------"+ playerTurn+"------");
         for (int i = 0; i < 2 * rows - 1; i++) {
             for (int j = 0; j < 2 * cols - 1; j++) {
 
@@ -138,6 +178,7 @@ public class DrawingPanel extends JPanel implements Serializable {
             }
             System.out.println();
         }
+
     }
     @Override
     protected void paintComponent(Graphics graphics) {
@@ -215,7 +256,7 @@ public class DrawingPanel extends JPanel implements Serializable {
         }
     }
     private void gameStatusProgress(){
-        System.out.println("ProgressStatus");
+      //  System.out.println("ProgressStatus");
         if(countAllNodesValid == 0){
             gameOver=true;
             if(playerTurn == 1){
@@ -231,13 +272,13 @@ public class DrawingPanel extends JPanel implements Serializable {
                     for (int dy = -2; dy <= 2; dy += 2) {
                         int ni = lastPosCirclei + dx;
                         int nj = lastPosCirclej + dy;
-                        System.out.println("i " + lastPosCirclei + " j " +lastPosCirclej +" dx " + dx + " dy " + dy + " ni " + ni +  " nj " + nj);
+                       // System.out.println("i " + lastPosCirclei + " j " +lastPosCirclej +" dx " + dx + " dy " + dy + " ni " + ni +  " nj " + nj);
                         // Verificăm dacă ni și nj sunt în interiorul matricei
                         if (ni >= 0 && ni < 2*rows - 1 && nj >= 0 && nj < 2*cols - 1) {
                             // Verificăm dacă nodul vecin este valid
-                            System.out.println("| "+ GridLinesPositions[ni][nj] +" | " + ni + " i- " + nj + " -j ");
+                       //     System.out.println("| "+ GridLinesPositions[ni][nj] +" | " + ni + " i- " + nj + " -j ");
                             if (GridLinesPositions[ni][nj] == 1) {
-                                System.out.println("De");
+                               // System.out.println("De");
                                 allNeighborsInvalid = false;
                                 break;
                             }
@@ -247,10 +288,10 @@ public class DrawingPanel extends JPanel implements Serializable {
                         break;
                     }
                 }
-                System.out.println("o iter : allneighInvalid " + allNeighborsInvalid);
-                printGridLines();
-
+              //  System.out.println("o iter : allneighInvalid " + allNeighborsInvalid);
+              //  printGridLines();
                 if (allNeighborsInvalid) {
+                    //System.out.println("AICI?" + playerTurn);
                     gameOver = true;
                     //mesajul de victorie
                     if (playerTurn == 1) {
@@ -261,42 +302,289 @@ public class DrawingPanel extends JPanel implements Serializable {
                 }
             }
         }
-        //exista si cazul de izolare
-        /*
-        boolean allNeighborsInvalid = true;
-        if(playerTurn != -1) { //daca jocul inca nu a inceput,nu verificam
-            for (int dx = -2; dx <= 2; dx += 2) {
-                for (int dy = -2; dy <= 2; dy += 2) {
-                    int ni = lastPosCirclei + dx;
-                    int nj = lastPosCirclej + dy;
+    }
 
-                    // Verificăm dacă ni și nj sunt în interiorul matricei
-                    if (ni >= 0 && ni < rows && nj >= 0 && nj < cols) {
-                        // Verificăm dacă nodul vecin este valid
-                        if (GridLinesPositions[ni][nj] == 1) {
-                            System.out.println("De");
-                            allNeighborsInvalid = false;
+    //aceasta functie imi aplica modificarea de pe grila ai rowsXcols pe grila mare 2*rows-1X2*cols-1
+    private void aiGridLineToGridLinesPositions(int i , int j , int PlayerColor){
+        GridLinesPositions[2*i][2*j] = PlayerColor;
+        lastPosCirclei=2*i;
+        lastPosCirclej=2*j;
+        countAllNodesValid--;
+       // System.out.println("---- count nodes ---" + countAllNodesValid);
+    }
+    public void aiPlay() {
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // while (!gameOver) {
+                if (!gameOver) {
+                    //pt prima mutare
+                    if (playerTurn == -1) {
+                        playerTurn = 1; //las player blue sa face prima mutare;
+                        //fac prima mutare
+                        int i = 0;
+                        int j = 0;
+                        while (true) {
+                            if (aiGridLine[i][j] == 1) { //daca nodul este valabil
+                                aiGridLine[i][j] = 2;
+                                aiGridLineToGridLinesPositions(i, j, 2);
+                                break;
+                            } else if (j < cols) {
+                                j++;
+                            } else {
+                                i++;
+                                j = 0;
+                            }
+                        }
+                        //actualizam mutarea facuta
+                        countAllNodesValidFromActions = countAllNodesValid;
+                        lastMoveFromActionI = i;
+                        lastMoveFromActionJ = j;
+
+                        playerTurn = 0;
+
+                        System.out.println(" First mutare player 1");
+                        printAiGridLines();
+                    }
+                    else if (playerTurn == 0) { //player yellow(2)
+                        // Aleg cea mai bună mutare folosind algoritmul MinMax
+                        MoveAction bestMove = chooseBestMove();
+                        // Fac mutarea
+                        System.out.println("--- player 0 ,BEST move is --- " + bestMove.getI() + " " + bestMove.getJ());
+                        makeMove(bestMove);
+
+                        //ma asigur ca atunci cand jocul se termina sa nu schimb jucatorul
+                        // Schimb rândul jucătorului
+                        gameStatusProgress();
+                        if(!gameOver){
+                            playerTurn = 1;}
+
+                    } else if (playerTurn == 1) { //player blue(3)
+                        // Alege cea mai bună mutare folosind algoritmul MinMax
+                        MoveAction bestMove = chooseBestMove();
+                        System.out.println("--- player 1 ,BEST move is --- " + bestMove.getI() + " " + bestMove.getJ());
+                        // Fac mutarea
+                        makeMove(bestMove);
+
+                        //ma asigur ca atunci cand jocul se termina sa nu schimb jucatorul
+                        // Schimbă rândul jucătorului
+                        gameStatusProgress();//updatez starea jocului,ca sa nu mi schimbe playerul iar
+                        if(!gameOver){
+                             playerTurn = 0;}
+                    }
+                    // Redeseneaz tabla de joc
+                    repaint();
+                }
+            }
+        });
+    }
+    private MoveAction chooseBestMove() {
+        List<MoveAction> actions = getAvailableMove(aiGridLine);
+        MoveAction bestMove = new MoveAction(-1,-1);
+        System.out.println("COOSE BEST MOVE");
+        int bestValue = (playerTurn == 1) ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+
+        for (MoveAction action : actions) {
+
+            //copiez matircea
+            int[][] copyOfAiGridLines = new int[aiGridLine.length][];
+            for (int i = 0; i < aiGridLine.length; i++) {
+                copyOfAiGridLines[i] = aiGridLine[i].clone();
+            }
+            int[][] newGridLines = Result(copyOfAiGridLines, action,playerTurn);
+
+            int value = minMax(newGridLines,playerTurn);//pun celalat player,deoarece in result ul de mai sus deja s afacut o miscare pe grila
+
+            if (playerTurn == 1 && value > bestValue) {
+                bestValue = value;
+                bestMove.setI(action.getI());
+                bestMove.setJ(action.getJ());
+               //daca gasesc o mutare buna pot face brake,nu ma mai intereseaza celelalte,insa s ar putea sa scap miscari mai bune
+                //break;
+            } else if (playerTurn == 0 && value < bestValue) {
+                bestValue = value;
+                bestMove.setI(action.getI());
+                bestMove.setJ(action.getJ());
+                //daca gasesc o mutare buna pot face brake,nu ma mai intereseaza celelalte,insa s ar putea sa scap miscari mai bune
+                //break;
+            }
+        }
+
+        return bestMove;
+    }
+    private void makeMove(MoveAction move) {
+        int i = move.getI();
+        int j = move.getJ();
+
+        if(i == -1 && j == -1){
+            System.out.println("Stop Game");
+            gameOver=true;
+        }else  if (playerTurn == 1) {
+                    aiGridLine[i][j] = 2; // Codul pentru Player Blue
+                    aiGridLineToGridLinesPositions(i,j,2); //updatez matricea mare,care este folosita pt desenare
+
+                    //actualizam mutarea facuta
+                    countAllNodesValidFromActions--;
+                    lastMoveFromActionI=i;
+                    lastMoveFromActionJ=j;
+            System.out.println("---Maked move ---");
+            printGridLines();
+
+            gameStatusProgress(); //updatez starea jocului,ca sa nu mi schimbe playerul iar
+            if(!gameOver){
+                 playerTurn = 0;}
+
+                } else {
+                    aiGridLine[i][j] = 3;
+                    aiGridLineToGridLinesPositions(i,j,3); //updatez matricea mare,care este folosita pt desenare
+
+                    //actualizam mutarea facuta
+                    countAllNodesValidFromActions--;
+                    lastMoveFromActionI=i;
+                    lastMoveFromActionJ=j;
+            System.out.println("---Maked move ---");
+            printGridLines();
+
+            gameStatusProgress();//updatez starea jocului,ca sa nu mi schimbe playerul iar
+                     if(!gameOver){
+                          playerTurn = 1;}
+        }
+        repaint();
+    }
+    private int terminal(int[][] GridLines,int playerTurn){
+        //daca starea jocului a ajuns sau nu in stare terminala
+        if(countAllNodesValidFromActions == 0){
+                if(playerTurn == 1){
+                    return 1;
+                }else {
+                    return -1;
+                }
+            }else {
+                if (playerTurn != -1) { //daca jocul inca nu a inceput,nu verificam
+                    boolean allNeighborsInvalid = true;
+                    for (int dx = 0; dx <= 2; dx ++) {
+                        for (int dy = 0; dy <= 2; dy ++) {
+                            int ni = lastMoveFromActionI + dx;
+                            int nj = lastMoveFromActionJ + dy;
+                           // System.out.println("i " + lastMoveFromActionI + " j " +lastMoveFromActionJ +" dx " + dx + " dy " + dy + " ni " + ni +  " nj " + nj);
+                            // Verificăm dacă ni și nj sunt în interiorul matricei
+                            if (ni >= 0 && ni <rows && nj >= 0 && nj < cols) {
+                                // Verificăm dacă nodul vecin este valid
+                                //System.out.println("| "+ GridLines[ni][nj] +" | " + ni + " i- " + nj + " -j ");
+                                if (GridLines[ni][nj] == 1) {
+                                  //  System.out.println("De");
+                                    allNeighborsInvalid = false;
+                                    break;
+                                }
+                            }
+                        }
+                        if (!allNeighborsInvalid) {
                             break;
                         }
                     }
-                }
-                if(!allNeighborsInvalid){
-                    break;
+                    //System.out.println("o iter : allneighInvalid  AI" + allNeighborsInvalid);
+                    //printAiGridLines();
+
+                    if (allNeighborsInvalid) {
+                        if (playerTurn == 1) {
+                           // winner = "Player Blue";
+                            return 1;
+                        } else {
+                           // winner = "Player Yellow";
+                            return -1;
+                        }
+                    }else{
+                        return 0;
+                    }
                 }
             }
-            System.out.println("o iter : allneighInvalid " + allNeighborsInvalid);
-            printGridLines();
-
-            if (allNeighborsInvalid) {
-                gameOver = true;
-                //mesajul de victorie
-                if(playerTurn == 1){
-                    winner = "Player Blue";
-                }else {
-                    winner = "Player Yellow";
-                }
-        }*/
+            return 0;
     }
+    private int minMax(int[][] GridLines, int playerTurn){
+        int scor = terminal(GridLines,playerTurn);
+        if(scor == 1)
+            return 1;
+        else if(scor == -1)
+            return -1;
+
+        if (playerTurn == 1){ //player blue(2)
+            value = -100;
+            List<MoveAction> actions = getAvailableMove(GridLines);
+            for(MoveAction action : actions){
+                int lastOnePosi = lastMoveFromActionI;
+                int lastOnePosj = lastMoveFromActionJ;
+                value = Math.max(value,minMax(Result(GridLines,action,playerTurn),0));
+                //practic dupa ce ma intorc din recursie, nodul redevine valid,iar pozitia curenta se modifica la iteratia curenta,in loc de cea din recursie
+                countAllNodesValidFromActions++;
+                lastMoveFromActionI =lastOnePosi;
+                lastMoveFromActionJ=lastOnePosj;
+            }
+            return value;
+        }
+        if (playerTurn == 0){ //player yellow(3)
+            value = 100;
+            List<MoveAction> actions = getAvailableMove(GridLines);
+            for(MoveAction action : actions){
+                int lastOnePosi = lastMoveFromActionI;
+                int lastOnePosj = lastMoveFromActionJ;
+                value = Math.min(value,minMax(Result(GridLines,action,playerTurn),1));
+                //practic dupa ce ma intorc din recursie, nodul redevine valid,iar pozitia curenta se modifica la iteratia curenta,in loc de cea din recursie
+                countAllNodesValidFromActions++;
+                lastMoveFromActionI =lastOnePosi;
+                lastMoveFromActionJ=lastOnePosj;
+            }
+            return value;
+        }
+        return -200;
+    }
+    private int[][] Result(int[][] GridLines, MoveAction action,int playerTurn) {
+        // Obținem coordonatele mutării din acțiune
+        int i = action.getI();
+        int j = action.getJ();
+
+        // Colorăm nodul corespunzător în matricea newGridLines
+        if (playerTurn == 1) {
+            GridLines[i][j] = 3; // Codul pentru Player Blue
+            playerTurn=0;
+            lastMoveFromActionI = i;
+            lastMoveFromActionJ = j;
+            countAllNodesValidFromActions--;
+        } else {
+            GridLines[i][j] = 2; // Codul pentru Player Yellow
+            playerTurn=1;
+            lastMoveFromActionI = i;
+            lastMoveFromActionJ = j;
+            countAllNodesValidFromActions--;
+        }
+
+
+        // Returnăm noua stare a jocului/cream o copie pe care o returnam
+        int[][] newCopyOfGridLines =new int[GridLines.length][];
+        for (int k = 0; k < GridLines.length; k++) {
+            newCopyOfGridLines[k] = GridLines[k].clone();
+        }
+        return newCopyOfGridLines;
+    }
+    private List<MoveAction> getAvailableMove(int[][] fromThisGridLines){
+        List<MoveAction> availableMoves = new ArrayList<>();
+
+        // Parcurgem matricea GridLinesPositions
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                // Verificam daca nodul este valid (adica daca nu a fost inca colorat)
+                if(fromThisGridLines[i][j] == 1 ) {
+                    if(((i - 1) == lastMoveFromActionI || (i + 1) == lastMoveFromActionI || i == lastMoveFromActionI) && ((j - 1) == lastMoveFromActionJ || (j + 1) == lastMoveFromActionJ || j == lastMoveFromActionJ))
+                    {
+                    // Daca nodul este valid, il adaugam in lista de mutari disponibile
+                    availableMoves.add(new MoveAction(i, j));
+                   }
+                }
+            }
+        }
+
+        return availableMoves;
+    }
+
     private void eventStones(){
         addMouseListener(new MouseAdapter() {
             @Override
@@ -360,6 +648,7 @@ public class DrawingPanel extends JPanel implements Serializable {
     }
     private void paintGameOver(Graphics2D g){
         if(gameOver){
+            System.out.println("plyer : " + playerTurn);
             if(playerTurn == 1) {
                 g.setColor(Color.BLUE);
             }else{

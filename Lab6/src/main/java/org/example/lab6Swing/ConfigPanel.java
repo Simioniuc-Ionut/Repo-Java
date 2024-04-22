@@ -25,8 +25,8 @@ public class ConfigPanel extends JPanel implements Serializable {
             this.label=new JLabel("Grid size:");
             setBackground(Color.orange);
              //Crearea spinner-ilor pentru rânduri și coloane
-             rowsSpinner = new JSpinner(new SpinnerNumberModel(5, 2, 100, 1));
-             colsSpinner = new JSpinner(new SpinnerNumberModel(5, 2, 100, 1));
+             rowsSpinner = new JSpinner(new SpinnerNumberModel(3, 2, 100, 1));
+             colsSpinner = new JSpinner(new SpinnerNumberModel(3, 2, 100, 1));
 
             // Crearea butonului pentru a începe un joc nou
             JButton newGameButton = new JButton("New Game");

@@ -77,13 +77,6 @@ public class ControlPanel extends JPanel implements Serializable{
                 // Restaurează starea jocului
                 try {
                     FileInputStream fileIn = new FileInputStream("C:\\Users\\Asus\\Documents\\Facultate\\Anul2\\Sem2\\Java\\Repo-Java_vechi\\Lab6\\src\\main\\resources\\org\\example\\lab6\\gamestate.ser");
-                    /*ObjectInputStream in = new ObjectInputStream(fileIn);
-                    frame.canvas = (DrawingPanel) in.readObject();
-                    frame.configPanel = (ConfigPanel) in.readObject(); // presupunem că 'Game' este clasa care reprezintă starea jocului
-                    frame.controlPanel=(ControlPanel) in.readObject();
-                    in.close();
-                    fileIn.close();
-                   // frame.repaint();*/
                     ObjectInputStream in = new ObjectInputStream(fileIn);
 
                     DrawingPanel canvas = (DrawingPanel) in.readObject();
