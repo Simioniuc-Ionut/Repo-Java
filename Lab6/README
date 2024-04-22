@@ -8,3 +8,4 @@ In order to create a graphical user interface for the game, you may use either S
 Example of a board with randomly placed sticks and stones.
 
 I implemented an AI  that could be active in launch of the DrawingPanel class. That AI was implemented with minmax algorithm.
+
