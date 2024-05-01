@@ -10,8 +10,8 @@ public class ConnectionPool {
         dataSource.setUrl("jdbc:mysql://localhost:3305/db");
         dataSource.setUsername("root");
         dataSource.setPassword("Bananageo2bucati");
-        dataSource.setInitialSize(5); // Dimensiunea inițială a pool-ului
-        dataSource.setMaxTotal(20); // Numărul maxim de conexiuni
+        dataSource.setInitialSize(5); // Dimensiunea initiala a pool-ului
+        dataSource.setMaxTotal(20); // Numarul maxim de conexiuni
         dataSource.setDefaultAutoCommit(false);
     }
 

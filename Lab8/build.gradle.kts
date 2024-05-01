@@ -13,9 +13,10 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     implementation ("mysql:mysql-connector-java:8.0.26")
+    implementation ("org.hibernate:hibernate-core:5.4.27.Final")
 }
 dependencies {
-    implementation ("com.opencsv:opencsv:5.5")
+    implementation ("com.opencsv:opencsv:5.5.2")
     implementation ("org.apache.commons:commons-dbcp2:2.12.0")
 }
 

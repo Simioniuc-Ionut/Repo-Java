@@ -4,12 +4,17 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import com.opencsv.CSVReader;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
         try {
             Connection connection = ConnectionPool.getDataSource().getConnection();
+//            var author = new AuthorDAO();
+//            author.create("William Shakespeare");
+//
+//            var author2 = new AuthorDAO();
+//            author2.create("Douglas Adams");
+
             var books = new BookDAO(); //findByName
 
             List<String> authors1 = new ArrayList<>();
@@ -20,10 +25,12 @@ public class Main {
 
             String title1 = "Romeo and Juliet";
 
-            if(books.findByName(title1) == null)
-                books.create(1597,title1 , authors1,genres1);
-
+            if(books.findByName(title1) == null) {
+             System.out.println("IF1");
+                books.create(1597,"eng",800, title1, authors1, genres1);
+            }
             //la fel
+
             List<String> authors2 = new ArrayList<>();
             authors2.add("Douglas Adams");
 
@@ -34,9 +41,10 @@ public class Main {
 
             String title2= "The Hitchhiker's Guide to the Galaxy";
 
-            if(books.findByName(title2) == null)
-                 books.create(1979,title2, authors2, genres2);
-
+            if(books.findByName(title2) == null) {
+                System.out.println("IF2");
+                books.create(1979,"eng",500, title2, authors2, genres2);
+            }
             //TODO: print all the books in the database
              books.printAllBooks();
 

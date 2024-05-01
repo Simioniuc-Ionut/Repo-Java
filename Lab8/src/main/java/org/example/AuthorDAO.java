@@ -7,14 +7,25 @@ public class AuthorDAO extends Library {
     private final String idOfAuthor = "select id from authors where name = ?";
     private final String nameOfAuthor = "select name from authors where id = ?";
     private final String insertAnAuthor = "insert into authors (name) values (?)";
-    private BasicDataSource dataSource = ConnectionPool.getDataSource();
+    private final BasicDataSource dataSource = ConnectionPool.getDataSource();
 
-    public void create(String name) throws SQLException {
+    public Integer create(String name) throws SQLException {
         //Connection con = DatabaseConnection.getConnection();
         Connection con = dataSource.getConnection();
-        try(PreparedStatement pstmt = con.prepareStatement(insertAnAuthor)) {
+        con.setAutoCommit(false);
+        try(PreparedStatement pstmt = con.prepareStatement(insertAnAuthor,Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, name);
             pstmt.executeUpdate();
+            con.commit();
+            System.out.println("Auhor created " + name);
+
+            ResultSet rs = pstmt.getGeneratedKeys();
+            if(rs.next()) {
+                return rs.getInt(1);// returnează ID-ul noului gen creat
+            }
+            return null;
+        } finally {
+            con.close();
         }
     }
 
@@ -26,6 +37,8 @@ public class AuthorDAO extends Library {
             try (ResultSet rs = pstmt.executeQuery()) {
                 return rs.next() ? rs.getInt(1) : null;
             }
+        }finally {
+            con.close();
         }
     }
 
@@ -36,6 +49,15 @@ public class AuthorDAO extends Library {
             pstmt.setInt(1, id);
             try (ResultSet rs = pstmt.executeQuery()) {
                 return rs.next() ? rs.getString(1) : null;
+            }
+        }finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e) {
+                    System.out.println(e + " cannot close connection in AuthorDAO");
+                    e.printStackTrace();
+                }
             }
         }
     }
