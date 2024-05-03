@@ -18,6 +18,7 @@ dependencies {
 dependencies {
     implementation ("com.opencsv:opencsv:5.5.2")
     implementation ("org.apache.commons:commons-dbcp2:2.12.0")
+    implementation ("org.jgrapht:jgrapht-core:1.5.1")
 }
 
 tasks.test {

@@ -1,6 +1,7 @@
 package org.example;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
+import org.example.DAO.BookDAO;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -14,15 +15,16 @@ import java.util.Date;
 import java.util.List;
 
 public class CSVDataImporter {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         String csvFile = "C:\\Users\\Asus\\Documents\\Facultate\\Anul2\\Sem2\\Java\\Repo-Java_vechi\\Lab8\\src\\main\\resources\\bookCsv.csv";  // înlocuiți cu calea către fișierul dvs. CSV
         CSVReader reader = null;
+        Connection connection = ConnectionPool.getDataSource().getConnection();
         try {
             reader = new CSVReader(new FileReader(csvFile));
             List<String[]> data = reader.readAll();
             // Acum aveți datele într-o listă de șiruri de caractere, puteți să le procesați după cum aveți nevoie
 
-            Connection connection = ConnectionPool.getDataSource().getConnection();
+
 
             var books = new BookDAO();
             //SimpleDateFormat dateYearFormat = new SimpleDateFormat("yyyy");
@@ -60,6 +62,8 @@ public class CSVDataImporter {
 
             books.printAllBooks();
 
+
+
         } catch (ParseException | IOException | SQLException | CsvException e) {
             System.out.println(e.getMessage());
         }
@@ -71,7 +75,7 @@ public class CSVDataImporter {
                     System.out.println("Error closing CSVReader");
                 }
             }
-
+            connection.close();
         }
     }
 }
