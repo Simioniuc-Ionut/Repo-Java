@@ -1,6 +1,6 @@
 package org.example;
 
-import repository.EntityManagerFactorySingleton;
+import singleton.EntityManagerFactorySingleton;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

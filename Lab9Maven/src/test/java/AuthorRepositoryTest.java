@@ -17,11 +17,11 @@ public class AuthorRepositoryTest {
 
     @Test
     public void testCreateAndFindById() {
-        AuthorEntity AuthorEntity = new AuthorEntity("Mark Twain");
-        authorRepository.create(AuthorEntity);
+        AuthorEntity authorEntity = new AuthorEntity("Mark Twain");
+        authorRepository.create(authorEntity);
 
-        AuthorEntity foundAuthor = authorRepository.findById(AuthorEntity.getId());
-        assertEquals(AuthorEntity, foundAuthor);
+        AuthorEntity foundAuthor = authorRepository.findById(authorEntity.getId());
+        assertEquals(authorEntity, foundAuthor);
     }
 
     @Test
