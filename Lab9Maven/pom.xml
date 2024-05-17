@@ -44,7 +44,13 @@
             <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.choco-solver</groupId>
+            <artifactId>choco-solver</artifactId>
+            <version>4.10.14</version>
+        </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <!-- Plugin pentru compilare -->

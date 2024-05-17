@@ -1,9 +1,8 @@
 
-import model.BookEntity;
 import model.GenreEntity;
 import org.junit.Before;
 import org.junit.Test;
-import repository.GenreRepository;
+import repository.Simple.GenreRepository;
 
 import java.util.List;
 

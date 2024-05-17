@@ -24,7 +24,7 @@ public abstract class AbstractRepository<T, ID extends Serializable> {
             Handler fileHandler = new FileHandler("./app.log", true);
             LOGGER.addHandler(fileHandler);
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Eroare la inițializarea logger-ului.", e);
+            LOGGER.log(Level.SEVERE, "Eroare la initializarea logger-ului.", e);
         }
     }
 
@@ -66,11 +66,23 @@ public abstract class AbstractRepository<T, ID extends Serializable> {
 
     }
 
+    public List<T> findFirstN(int n) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<T> cq = cb.createQuery(entityClass);
+        Root<T> rootEntry = cq.from(entityClass);
+        CriteriaQuery<T> all = cq.select(rootEntry).orderBy(cb.asc(rootEntry.get("id"))); // "id" este coloana dupa care ordonez
+        long startTime = System.currentTimeMillis();
+        List<T> result = entityManager.createQuery(all).setMaxResults(n).getResultList(); // setez nr max de rez
+        long endTime = System.currentTimeMillis();
+        LOGGER.log(Level.INFO, "Timpul de execuție pentru găsirea primelor " + n + " entități: " + (endTime - startTime) + "ms");
+        return result;
+    }
 
     public List<T> findAll() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<T> cq = cb.createQuery(entityClass);
+    CriteriaQuery<T> cq = cb.createQuery(entityClass);
         Root<T> rootEntry = cq.from(entityClass);
         CriteriaQuery<T> all = cq.select(rootEntry);
         long startTime = System.currentTimeMillis();

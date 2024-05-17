@@ -49,6 +49,21 @@ public class BookEntity {
 
     }
 
+    public BookEntity(int id, int year, String language, int page, String name) {
+        this.id = id;
+        this.year = year;
+        this.language = language;
+        this.page = page;
+        this.name = name;
+    }
+
+    public BookEntity(int page, String language, int year, String name) {
+        this.page = page;
+        this.language = language;
+        this.year = year;
+        this.name = name;
+    }
+
     public Integer getId() {
         return id;
     }

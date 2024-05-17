@@ -28,6 +28,11 @@ public class GenreEntity {
             inverseJoinColumns = @JoinColumn(name = "book_id"))
     private Set<BookEntity> books = new LinkedHashSet<>();
 
+    public GenreEntity(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public GenreEntity(String name) {
         this.name = name;
     }

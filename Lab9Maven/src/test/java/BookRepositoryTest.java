@@ -1,11 +1,9 @@
 
-import model.AuthorEntity;
 import model.BookEntity;
 import org.junit.Before;
 import org.junit.Test;
-import repository.BookRepository;
+import repository.Simple.BookRepository;
 
-import java.awt.print.Book;
 import java.util.List;
 
 import static org.junit.Assert.*;

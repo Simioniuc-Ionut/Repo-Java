@@ -13,6 +13,7 @@ import java.util.Set;
         @NamedQuery(name = "Author.findByName",
             query = "SELECT a FROM AuthorEntity a WHERE a.name LIKE :name")
 })
+
 public class AuthorEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
