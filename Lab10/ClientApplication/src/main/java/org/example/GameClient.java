@@ -1,4 +1,5 @@
 package org.example;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -17,39 +18,59 @@ public class GameClient {
     public void start() {
         try (
                 Socket socket = new Socket(serverAddress, serverPort);
-                BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))
+                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
         ) {
-            System.out.println("Connected to server. Type 'exit' to quit.");
+            // Verifică mesajul de stare inițial
+            String StatusResponse = in.readLine();
+            if (StatusResponse.equals("-10")) {
+                System.out.println("Server Is Full");
+            } else {
+                System.out.println(StatusResponse + "\nConnected to server. Type 'exit' to quit.");
 
-            String userInputLine;
-            while ((userInputLine = userInput.readLine()) != null) {
-                out.println(userInputLine);
+                // Thread pentru a asculta răspunsurile serverului
+                Thread serverListener = createServerListenerThread(in);
+                serverListener.start();
 
-                // Dacă comanda este "exit", ieșim din bucla de citire
-                if (userInputLine.equalsIgnoreCase("exit")) {
-                    // Citim și afișăm răspunsul de la server
-                    String serverResponse = in.readLine();
-                    System.out.println("Server response: " + serverResponse);
-                    System.out.println("Client response: Client exit");
-                    break;
+                String userInputLine;
+                while ((userInputLine = userInput.readLine()) != null) {
+                    out.println(userInputLine);
+
+                    if (userInputLine.equalsIgnoreCase("exit")) {
+                        System.out.println("Client response: Client exit");
+                        break;
+                    }
                 }
 
-                // Citim și afișăm răspunsul de la server
-                String serverResponse = in.readLine();
-                System.out.println("Server response: " + serverResponse);
+                serverListener.join(); // Așteaptă ca thread-ul de ascultare să se termine
             }
-        } catch (IOException e) {
+
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    public static void main(String[] args) {
-        String serverAddress = "localhost";
-        int serverPort = 12345; // Change this to the server's port
-
-        GameClient client = new GameClient(serverAddress, serverPort);
-        client.start();
+    private Thread createServerListenerThread(BufferedReader in) {
+        return new Thread(() -> {
+            try {
+                String serverResponse;
+                while ((serverResponse = in.readLine()) != null) {
+                    System.out.println("Server response: " + serverResponse);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (in != null) {
+                        in.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
+
+
 }
