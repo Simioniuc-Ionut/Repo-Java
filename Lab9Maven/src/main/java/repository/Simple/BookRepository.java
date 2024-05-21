@@ -1,11 +1,8 @@
-package repository.Simple;
+package repository.simple;
 
 import model.BookEntity;
 import repository.AbstractRepository;
 import singleton.EntityManagerFactorySingleton;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class BookRepository extends AbstractRepository<BookEntity,Integer> {
 

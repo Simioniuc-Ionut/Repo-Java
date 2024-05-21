@@ -1,4 +1,4 @@
-package repository.Simple;
+package repository.simple;
 
 import model.GenreEntity;
 import repository.AbstractRepository;

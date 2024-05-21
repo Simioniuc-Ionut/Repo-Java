@@ -1,8 +1,8 @@
-package singleton.DAO;
+package singleton.dao;
 
-import repository.Interfaces.AuthorRepositoryInterface;
-import repository.Interfaces.BookRepositoryInterface;
-import repository.Interfaces.GenreRepositoryInterface;
+import repository.interfaces.AuthorRepositoryInterface;
+import repository.interfaces.BookRepositoryInterface;
+import repository.interfaces.GenreRepositoryInterface;
 
 public abstract class AbstractDaoFactory {
     public abstract AuthorRepositoryInterface createAuthorRepository();

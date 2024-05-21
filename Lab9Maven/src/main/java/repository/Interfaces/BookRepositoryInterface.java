@@ -1,4 +1,4 @@
-package repository.Interfaces;
+package repository.interfaces;
 
 import model.BookEntity;
 

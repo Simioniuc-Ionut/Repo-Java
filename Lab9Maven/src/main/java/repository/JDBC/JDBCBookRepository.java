@@ -1,7 +1,7 @@
-package repository.JDBC;
+package repository.jdbc;
 
 import model.BookEntity;
-import repository.Interfaces.BookRepositoryInterface;
+import repository.interfaces.BookRepositoryInterface;
 
 import java.sql.*;
 import java.util.ArrayList;

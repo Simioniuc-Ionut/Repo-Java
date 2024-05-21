@@ -1,11 +1,11 @@
-package singleton.DAO;
+package singleton.dao;
 
-import repository.Interfaces.AuthorRepositoryInterface;
-import repository.Interfaces.BookRepositoryInterface;
-import repository.Interfaces.GenreRepositoryInterface;
-import repository.JDBC.JDBCAuthorRepository;
-import repository.JDBC.JDBCBookRepository;
-import repository.JDBC.JDBCGenreRepository;
+import repository.interfaces.AuthorRepositoryInterface;
+import repository.interfaces.BookRepositoryInterface;
+import repository.interfaces.GenreRepositoryInterface;
+import repository.jdbc.JDBCAuthorRepository;
+import repository.jdbc.JDBCBookRepository;
+import repository.jdbc.JDBCGenreRepository;
 
 public class JdbcDaoFactory extends AbstractDaoFactory {
     @Override

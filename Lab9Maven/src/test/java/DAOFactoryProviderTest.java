@@ -3,9 +3,9 @@ import model.BookEntity;
 import model.GenreEntity;
 import org.junit.Before;
 import org.junit.Test;
-import repository.Interfaces.AuthorRepositoryInterface;
-import repository.Interfaces.BookRepositoryInterface;
-import repository.Interfaces.GenreRepositoryInterface;
+import repository.interfaces.AuthorRepositoryInterface;
+import repository.interfaces.BookRepositoryInterface;
+import repository.interfaces.GenreRepositoryInterface;
 
 import java.util.List;
 

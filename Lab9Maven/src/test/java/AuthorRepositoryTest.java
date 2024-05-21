@@ -1,7 +1,7 @@
     import model.AuthorEntity;
     import org.junit.Before;
     import org.junit.Test;
-    import repository.Simple.AuthorRepository;
+    import repository.simple.AuthorRepository;
 
     import java.util.List;
 

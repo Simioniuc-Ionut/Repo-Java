@@ -1,7 +1,7 @@
-package repository.JDBC;
+package repository.jdbc;
 
 import model.GenreEntity;
-import repository.Interfaces.GenreRepositoryInterface;
+import repository.interfaces.GenreRepositoryInterface;
 
 import java.sql.*;
 import java.util.ArrayList;

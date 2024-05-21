@@ -1,8 +1,8 @@
-package repository.JPA;
+package repository.jpa;
 
 import model.AuthorEntity;
 import repository.AbstractRepository;
-import repository.Interfaces.AuthorRepositoryInterface;
+import repository.interfaces.AuthorRepositoryInterface;
 import singleton.EntityManagerFactorySingleton;
 
 public class JPAAuthorRepository extends AbstractRepository<AuthorEntity,Integer> implements AuthorRepositoryInterface {

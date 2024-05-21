@@ -1,11 +1,11 @@
-package repository.JDBC;
+package repository.jdbc;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.*;
 
 import model.AuthorEntity;
-import repository.Interfaces.AuthorRepositoryInterface;
+import repository.interfaces.AuthorRepositoryInterface;
 
 import java.util.ArrayList;
 import java.util.List;

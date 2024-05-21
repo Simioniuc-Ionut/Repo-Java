@@ -2,8 +2,8 @@ import model.BookEntity;
 import org.chocosolver.solver.Model;
 import org.chocosolver.solver.variables.BoolVar;
 import org.chocosolver.solver.variables.IntVar;
-import repository.Simple.BookRepository;
-import java.time.Year;
+import repository.simple.BookRepository;
+
 import java.util.List;
 
 public class ChocoSolver {
@@ -14,7 +14,7 @@ public class ChocoSolver {
         // Obtine cartile din baza de date
         BookRepository findAllBooks = new BookRepository();
         List<BookEntity> books = findAllBooks.findFirstN(20);
-        int Kbooks= 10;
+        int kBooks= 10;
         int differenceYearExceed = 20;
         String firstLetter = "H"; // litera cu care incep titlurile cartilor
 
@@ -43,7 +43,7 @@ public class ChocoSolver {
 
             }
         }
-        model.sum(isSelected, ">=", Kbooks).post();
+        model.sum(isSelected, ">=", kBooks).post();
 
         // Constrangerea pt years exceed
         for (int i = 0; i < n; i++) {

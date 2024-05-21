@@ -2,7 +2,7 @@
 import model.GenreEntity;
 import org.junit.Before;
 import org.junit.Test;
-import repository.Simple.GenreRepository;
+import repository.simple.GenreRepository;
 
 import java.util.List;
 

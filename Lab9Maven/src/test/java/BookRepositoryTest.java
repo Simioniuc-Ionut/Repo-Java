@@ -2,7 +2,7 @@
 import model.BookEntity;
 import org.junit.Before;
 import org.junit.Test;
-import repository.Simple.BookRepository;
+import repository.simple.BookRepository;
 
 import java.util.List;
 

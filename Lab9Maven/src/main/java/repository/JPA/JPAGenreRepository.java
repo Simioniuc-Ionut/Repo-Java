@@ -1,9 +1,9 @@
-package repository.JPA;
+package repository.jpa;
 
 
 import model.GenreEntity;
 import repository.AbstractRepository;
-import repository.Interfaces.GenreRepositoryInterface;
+import repository.interfaces.GenreRepositoryInterface;
 import singleton.EntityManagerFactorySingleton;
 
 public class JPAGenreRepository extends AbstractRepository<GenreEntity,Integer> implements GenreRepositoryInterface {

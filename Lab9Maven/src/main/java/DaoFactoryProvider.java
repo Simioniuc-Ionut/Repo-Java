@@ -1,6 +1,6 @@
-import singleton.DAO.AbstractDaoFactory;
-import singleton.DAO.JdbcDaoFactory;
-import singleton.DAO.JpaDaoFactory;
+import singleton.dao.AbstractDaoFactory;
+import singleton.dao.JdbcDaoFactory;
+import singleton.dao.JpaDaoFactory;
 
 import java.io.IOException;
 import java.nio.file.Files;

@@ -1,4 +1,4 @@
-package repository.Simple;
+package repository.simple;
 
 import model.AuthorEntity;
 import repository.AbstractRepository;
