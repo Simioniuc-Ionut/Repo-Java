@@ -32,6 +32,13 @@
 
         }
 
+        public Book(String newBook, int i, String ro, int i1) {
+            this.title = newBook;
+            this.year = i;
+            this.language = ro;
+            this.page = i1;
+        }
+
         @Override
         public String   toString() {
             return "Book{" +

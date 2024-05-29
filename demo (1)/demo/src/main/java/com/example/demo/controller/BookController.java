@@ -3,6 +3,8 @@ import com.example.demo.model.Book;
 import com.example.demo.repository.BookRepository;
 //import io.swagger.annotations.Api;
 //import io.swagger.annotations.ApiOperation;
+//import io.swagger.annotations.Api;
+//import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,7 +24,7 @@ public class BookController {
         this.bookRepository = bookRepository;
     }
 
-    //@ApiOperation(value = "View a list of all books", response = List.class)
+   // @ApiOperation(value = "View a list of all books", response = List.class)
     @GetMapping ("/list")
     public ResponseEntity<List<Book>> getBooks () {
         try {
@@ -43,7 +45,7 @@ public class BookController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-  //  @ApiOperation(value = "Add a new book")
+  //@ApiOperation(value = "Add a new book")
   @PostMapping("/add")
   public void addBook(@RequestBody Book book) {
       bookRepository.save(book);
@@ -58,15 +60,16 @@ public class BookController {
             "year": 2003
         }
      */
-  //  @ApiOperation(value = "Update the title of a book")
+ //  @ApiOperation(value = "Update the title of a book")
     @PutMapping("/update/title")
     public void updateTitle(@RequestParam String title, @RequestParam String newTitle){
         Book b = bookRepository.findByTitle(title);
+        System.out.println(b.getTitle());
         b.setTitle(newTitle);
         bookRepository.save(b);
     }
 
- //   @ApiOperation(value = "Delete a book")
+   // @ApiOperation(value = "Delete a book")
  @DeleteMapping("/delete")
  public ResponseEntity<String> deleteBook(@RequestParam String title){
      Book b = bookRepository.findByTitle(title);

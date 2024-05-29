@@ -5,6 +5,8 @@ package com.example.demo.controller;
 import com.example.demo.model.Author;
 import com.example.demo.repository.AuthorRepository;
 
+//import io.swagger.annotations.Api;
+//import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,7 +27,8 @@ public class AuthorController {
     public AuthorController(AuthorRepository authorRepository){
         this.authorRepository = authorRepository;
     }
-//    @ApiOperation(value = "View a list of all authors", response = List.class)
+
+//@ApiOperation(value = "View a list of all authors", response = List.class)
 @GetMapping (path = "/list")
 public ResponseEntity<List<Author>> getAuthors () {
     try {
