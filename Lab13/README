@@ -1,1 +1,8 @@
+```
+Compulsory:
 
+Atunci cand pornesc executabilul localExpore pot accesa informatiile din fisierele Messages.properties ,tastand comanda
+"info". Pot seta localizarea ,astfel incat schimbandu se limba in care sunt afisate mesajele.(Din romana in engleza sau alte limbi).
+Poti sa tastezi si comanda "locales" pentru a vedea celelalte localizari disponibile. 
+!Exemplu-Run "C:\Users\Asus\OneDrive\Pictures\Capturi de ecran\Screenshot 2024-06-11 221034.png"
+```
